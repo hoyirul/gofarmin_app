@@ -1,12 +1,15 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/components/banner_component.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/components/member_list_component.dart';
 
 class HomeInvestorScreen extends StatefulWidget {
   const HomeInvestorScreen({super.key});
@@ -132,7 +135,7 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/majestic.svg',
-                                  title: 'Booking'))),
+                                  title: 'Portofolio'))),
                       const SizedBox(
                         width: 20,
                       ),
@@ -164,6 +167,59 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
           const SizedBox(
             height: 10,
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 25, right: 25),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'What is new?',
+                      style: TextStyle(
+                          fontFamily: FontPicker.semibold,
+                          color: ColorPicker.dark,
+                          fontSize: 18),
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                const BannerComponent(),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Investments',
+                      style: TextStyle(
+                          fontFamily: FontPicker.semibold,
+                          color: ColorPicker.dark,
+                          fontSize: 18),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                GridView.count(
+                  padding: const EdgeInsets.all(0),
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 15,
+                  crossAxisCount: 2,
+                  childAspectRatio: (4 / 5),
+                  shrinkWrap: true,
+                  children: const [
+                    MemberListComponent(),
+                    MemberListComponent(),
+                    MemberListComponent(),
+                    MemberListComponent(),
+                    MemberListComponent(),
+                    MemberListComponent(),
+                  ],
+                )
+              ],
+            ),
+          )
         ],
       ),
     ));

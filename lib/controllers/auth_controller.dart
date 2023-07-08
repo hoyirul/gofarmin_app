@@ -59,12 +59,11 @@ class AuthController extends GetxController {
       try {
         final response = await http.post(url,
             body: jsonEncode(body), headers: HeaderHelper().headersUnlogged());
-        print(response.statusCode);
         if (response.statusCode == 200) {
           final json = jsonDecode(response.body);
           final SharedPreferences prefs = await preferences;
-          // emailController.clear();
-          // passwordController.clear();
+          emailController.clear();
+          passwordController.clear();
           prefs.setInt('id', json['data']['user']['id']);
           prefs.setString('access_token', json['data']['access_token']);
           prefs.setString('token_type', json['data']['token_type']);

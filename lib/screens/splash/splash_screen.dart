@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
-// import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
 // import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 // import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
 // import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
@@ -21,7 +20,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final AuthController authController = Get.put(AuthController());
 
   @override
   void initState() {
@@ -34,17 +32,19 @@ class _SplashScreenState extends State<SplashScreen> {
     if (prefs.getString('access_token') == null) {
       Timer(const Duration(seconds: 3), () => Get.off(const ChoiceScreen()));
     } else {
-      authController.logout();
       switch (prefs.getInt('role_id')) {
         case 2:
-          // Timer(const Duration(seconds: 3),
-          //     () => Get.off(const HomeInvestorScreen()));
+          Timer(const Duration(seconds: 3),
+              () => Get.off(const HomeInvestorScreen()));
           break;
         case 3:
-          // Timer(const Duration(seconds: 3), () => Get.off(const HomeDriverScreen()));
+          // Timer(const Duration(seconds: 3), () => Get.off(const HomeMemberScreen()));
           break;
         case 4:
-          // Timer(const Duration(seconds: 3), () => Get.off(const HomeCustomerScreen()));
+          // Timer(const Duration(seconds: 3), () => Get.off(const HomeFarmGovScreen()));
+          break;
+        case 5:
+          // Timer(const Duration(seconds: 3), () => Get.off(const HomeAgricultureGovScreen()));
           break;
       }
     }
