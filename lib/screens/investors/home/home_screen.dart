@@ -1,4 +1,3 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
@@ -10,6 +9,8 @@ import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/member_list_component.dart';
+import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
+import 'package:get/get.dart';
 
 class HomeInvestorScreen extends StatefulWidget {
   const HomeInvestorScreen({super.key});
@@ -131,7 +132,7 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                print('Booking');
+                                print('Portofolio');
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/majestic.svg',
@@ -153,7 +154,7 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                print('Account');
+                                Get.off(const AccountInvestorScreen());
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/account.svg',

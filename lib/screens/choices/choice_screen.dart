@@ -69,7 +69,6 @@ class ChoiceScreen extends StatelessWidget {
                   button: TextButton(
                       onPressed: () {
                         Get.offAll(const LoginInvestorScreen());
-                        print('Oke');
                       },
                       child: const Text(
                         'Investor',

@@ -3,14 +3,7 @@ import 'dart:convert';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
-// import 'package:gofarmin_app/screens/investors/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
-// import 'package:gofarmin_app/screens/members/auth/login_screen.dart';
-// import 'package:gofarmin_app/screens/members/auth/login_screen.dart';
-// import 'package:gofarmin_app/screens/farm_gov/auth/login_screen.dart';
-// import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
-// import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
-// import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +39,6 @@ class AuthController extends GetxController {
 
   Future<void> authLogin(String role) async {
     final url = Uri.parse(HttpHelper().getUri('/auth/login/$role'));
-    print(url);
     Map body = {
       'email': emailController.text.trim(),
       'password': passwordController.text
@@ -80,7 +72,6 @@ class AuthController extends GetxController {
               prefs.setString('member_status', '');
               prefs.setString('gov_number', 'none');
               Get.off(const HomeInvestorScreen());
-              print('Investor');
               break;
             case 'member':
               prefs.setInt('user_role_id',

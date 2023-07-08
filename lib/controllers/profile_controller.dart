@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
 // import 'package:gofarmin_app/screens/investors/account/account_screen.dart';
 // import 'package:gofarmin_app/screens/members/account/account_screen.dart';
 // import 'package:gofarmin_app/screens/farm_gov/account/account_screen.dart';
@@ -171,8 +172,7 @@ class ProfileController extends GetxController {
 
         switch (role) {
           case 'investor':
-            // Get.off(const AccountInvestorScreen());
-            print('Investor');
+            Get.off(const AccountInvestorScreen());
             break;
           case 'member':
             // Get.off(const AccountMemberScreen());
