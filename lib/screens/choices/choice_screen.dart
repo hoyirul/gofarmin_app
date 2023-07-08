@@ -1,8 +1,10 @@
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
-// import 'package:gofarmin_app/screens/customers/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
-// import 'package:gofarmin_app/screens/drivers/auth/login_screen.dart';
+import 'package:gofarmin_app/screens/investors/auth/login_screen.dart';
+// import 'package:gofarmin_app/screens/members/auth/login_screen.dart';
+// import 'package:gofarmin_app/screens/farm_gov/auth/login_screen.dart';
+// import 'package:gofarmin_app/screens/agricuture_gov/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,7 +68,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginCustomerScreen());
+                        Get.offAll(const LoginInvestorScreen());
                         print('Oke');
                       },
                       child: const Text(
@@ -85,7 +87,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginDriverScreen());
+                        // Get.offAll(const LoginMemberScreen());
                         print('Oke');
                       },
                       child: const Text(
@@ -104,7 +106,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginDriverScreen());
+                        // Get.offAll(const LoginFarmGovScreen());
                         print('Oke');
                       },
                       child: const Text(
@@ -123,7 +125,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginDriverScreen());
+                        // Get.offAll(const LoginAgricultureGovScreen());
                         print('Oke');
                       },
                       child: const Text(

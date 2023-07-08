@@ -5,7 +5,7 @@ class ColorPicker {
   static const shape = Color(0xff3DC690);
   static const bg = Color(0xffFEFEFE);
   static const yellow = Color(0xffFFCA10);
-  static const rectangle = Color.fromARGB(255, 255, 246, 248);
+  static const rectangle = Color.fromARGB(255, 244, 255, 251);
   static const orange = Color(0xffFF9800);
   static const green = Color(0xff7ED321);
   static const greyLight = Color(0xffdddddd);
