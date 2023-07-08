@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
 
 class HomeInvestorScreen extends StatefulWidget {
   const HomeInvestorScreen({super.key});
@@ -209,13 +210,27 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                   crossAxisCount: 2,
                   childAspectRatio: (4 / 5),
                   shrinkWrap: true,
-                  children: const [
-                    MemberListComponent(),
-                    MemberListComponent(),
-                    MemberListComponent(),
-                    MemberListComponent(),
-                    MemberListComponent(),
-                    MemberListComponent(),
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          Get.off(const DetailMemberInvestorScreen());
+                        },
+                        child: const MemberListComponent()),
+                    InkWell(
+                        onTap: () {
+                          Get.off(const DetailMemberInvestorScreen());
+                        },
+                        child: const MemberListComponent()),
+                    InkWell(
+                        onTap: () {
+                          Get.off(const DetailMemberInvestorScreen());
+                        },
+                        child: const MemberListComponent()),
+                    InkWell(
+                        onTap: () {
+                          Get.off(const DetailMemberInvestorScreen());
+                        },
+                        child: const MemberListComponent()),
                   ],
                 )
               ],

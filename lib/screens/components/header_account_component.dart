@@ -23,12 +23,15 @@ class _HeaderAccountComponentState extends State<HeaderAccountComponent> {
         const SizedBox(
           height: 30,
         ),
-        Center(
-          child: Container(
-            height: 150,
-            width: 150,
-            decoration: const BoxDecoration(
-                color: ColorPicker.greyLight, shape: BoxShape.circle),
+        InkWell(
+          onTap: () {},
+          child: Center(
+            child: Container(
+              height: 150,
+              width: 150,
+              decoration: const BoxDecoration(
+                  color: ColorPicker.greyLight, shape: BoxShape.circle),
+            ),
           ),
         ),
         const SizedBox(
