@@ -4,6 +4,7 @@ import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
-      TextEditingController(text: 'investor@gmail.com');
+      TextEditingController(text: 'member2@gmail.com');
   TextEditingController passwordController =
       TextEditingController(text: 'password');
   TextEditingController passwordConfimationController = TextEditingController();
@@ -74,20 +75,20 @@ class AuthController extends GetxController {
               Get.off(const HomeInvestorScreen());
               break;
             case 'member':
-              prefs.setInt('user_role_id',
-                  int.parse(json['data']['user']['member']['id']));
+              prefs.setInt(
+                  'user_role_id', json['data']['user']['member']['id']);
               prefs.setString('name', json['data']['user']['member']['name']);
               prefs.setString(
                   'address', json['data']['user']['member']['address'] ?? '');
-              prefs.setString(
-                  'member_status', json['data']['user']['member']['status']);
+              prefs.setString('member_status',
+                  json['data']['user']['member']['member_status']);
               prefs.setString('gov_number', 'none');
-              // Get.off(const HomeMemberScreen());
+              Get.off(const HomeMemberScreen());
               print('Member');
               break;
             case 'farm':
-              prefs.setInt('user_role_id',
-                  int.parse(json['data']['user']['government']['id']));
+              prefs.setInt(
+                  'user_role_id', json['data']['user']['government']['id']);
               prefs.setString(
                   'name', json['data']['user']['government']['name']);
               prefs.setString('address',

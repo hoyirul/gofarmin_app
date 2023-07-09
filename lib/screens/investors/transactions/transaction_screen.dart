@@ -2,28 +2,21 @@ import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
-import 'package:gofarmin_app/screens/components/banner_component.dart';
-import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
-import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/components/tab_button_component.dart';
-import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
-import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
-import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
 
-class PortofolioInvestorScreen extends StatefulWidget {
-  const PortofolioInvestorScreen({super.key});
+class TransactionInvestorScreen extends StatefulWidget {
+  const TransactionInvestorScreen({super.key});
 
   @override
-  State<PortofolioInvestorScreen> createState() =>
-      _PortofolioInvestorScreenState();
+  State<TransactionInvestorScreen> createState() =>
+      _TransactionInvestorScreenState();
 }
 
-class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
+class _TransactionInvestorScreenState extends State<TransactionInvestorScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
 
@@ -142,7 +135,7 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Products',
+                      'Transactions',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           color: ColorPicker.dark,
@@ -179,7 +172,7 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                                 height: 2,
                               ),
                               Text(
-                                '2 Goats - 939K / goats',
+                                'Buy Order - Pending',
                                 style: TextStyle(
                                     fontFamily: FontPicker.regular,
                                     fontSize: 12),
@@ -192,14 +185,14 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                                 style: TextStyle(
                                     fontFamily: FontPicker.regular,
                                     fontSize: 12,
-                                    color: ColorPicker.danger),
+                                    color: ColorPicker.orange),
                               ),
                             ],
                           ),
                           trailing: Wrap(
                             children: const [
                               Text(
-                                '1,878K',
+                                '1,299K',
                                 style: TextStyle(
                                     fontFamily: FontPicker.semibold,
                                     color: ColorPicker.primary,
@@ -236,7 +229,7 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                                 height: 2,
                               ),
                               Text(
-                                '2 Goats - 1,210K / goats',
+                                'Sell Order - Success',
                                 style: TextStyle(
                                     fontFamily: FontPicker.regular,
                                     fontSize: 12),
@@ -249,17 +242,17 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                                 style: TextStyle(
                                     fontFamily: FontPicker.regular,
                                     fontSize: 12,
-                                    color: ColorPicker.danger),
+                                    color: ColorPicker.orange),
                               ),
                             ],
                           ),
                           trailing: Wrap(
                             children: const [
                               Text(
-                                '2,421K',
+                                '1,529K',
                                 style: TextStyle(
                                     fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.primary,
+                                    color: ColorPicker.danger,
                                     fontSize: 22),
                               ),
                             ],

@@ -9,20 +9,20 @@ import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/member_list_component.dart';
-import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
+import 'package:gofarmin_app/screens/members/accounts/account_screen.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
-import 'package:gofarmin_app/screens/investors/transactions/portofolio_screen.dart';
-import 'package:gofarmin_app/screens/investors/transactions/transaction_screen.dart';
+// import 'package:gofarmin_app/screens/members/invests/detail_member_screen.dart';
+// import 'package:gofarmin_app/screens/members/transactions/portofolio_screen.dart';
+// import 'package:gofarmin_app/screens/members/transactions/transaction_screen.dart';
 
-class HomeInvestorScreen extends StatefulWidget {
-  const HomeInvestorScreen({super.key});
+class HomeMemberScreen extends StatefulWidget {
+  const HomeMemberScreen({super.key});
 
   @override
-  State<HomeInvestorScreen> createState() => _HomeInvestorScreenState();
+  State<HomeMemberScreen> createState() => _HomeMemberScreenState();
 }
 
-class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
+class _HomeMemberScreenState extends State<HomeMemberScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
 
@@ -135,8 +135,9 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                Get.to(const PortofolioInvestorScreen(),
-                                    transition: Transition.fadeIn);
+                                // Get.to(const PortofolioInvestorScreen(),
+                                //     transition: Transition.fadeIn);
+                                print('Portofolio');
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/majestic.svg',
@@ -147,8 +148,9 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                Get.to(const TransactionInvestorScreen(),
-                                    transition: Transition.fadeIn);
+                                // Get.to(const TransactionInvestorScreen(),
+                                //     transition: Transition.fadeIn);
+                                print('Transaction');
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/mingcute.svg',
@@ -159,7 +161,7 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                Get.to(const AccountInvestorScreen(),
+                                Get.to(const AccountMemberScreen(),
                                     transition: Transition.fadeIn);
                               },
                               child: const HomeFeatureComponent(
@@ -215,27 +217,27 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                   crossAxisCount: 2,
                   childAspectRatio: (4 / 5),
                   shrinkWrap: true,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent()),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent()),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent()),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent()),
+                  children: const [
+                    // InkWell(
+                    //     onTap: () {
+                    //       Get.off(const DetailMemberInvestorScreen());
+                    //     },
+                    //     child: const MemberListComponent()),
+                    // InkWell(
+                    //     onTap: () {
+                    //       Get.off(const DetailMemberInvestorScreen());
+                    //     },
+                    //     child: const MemberListComponent()),
+                    // InkWell(
+                    //     onTap: () {
+                    //       Get.off(const DetailMemberInvestorScreen());
+                    //     },
+                    //     child: const MemberListComponent()),
+                    // InkWell(
+                    //     onTap: () {
+                    //       Get.off(const DetailMemberInvestorScreen());
+                    //     },
+                    //     child: const MemberListComponent()),
                   ],
                 )
               ],

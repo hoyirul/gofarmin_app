@@ -6,7 +6,6 @@ import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/components/input_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class RegisterMemberScreen extends StatefulWidget {

@@ -2,12 +2,15 @@ import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/components/button_alert_component.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/input_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
+import 'package:gofarmin_app/screens/investors/invests/payment_screen.dart';
 
 class DetailGoatInvestorScreen extends StatefulWidget {
   const DetailGoatInvestorScreen({super.key});
@@ -159,7 +162,22 @@ class _DetailGoatInvestorScreenState extends State<DetailGoatInvestorScreen> {
                     colors: ColorPicker.primary,
                     button: TextButton(
                         onPressed: () {
-                          print('Hello world!');
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmDialogComponent(
+                                message: 'Are you sure?',
+                                confirm: InkWell(
+                                    onTap: () => Get.to(
+                                        const PaymentInvestorScreen(),
+                                        transition: Transition.circularReveal),
+                                    child: const ButtonAlertComponent(
+                                      text: 'Continue',
+                                      colors: ColorPicker.primary,
+                                    )),
+                              );
+                            },
+                          );
                         },
                         child: const Text(
                           'Continue Invest',

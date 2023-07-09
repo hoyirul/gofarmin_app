@@ -7,6 +7,7 @@ import 'package:gofarmin_app/screens/investors/auth/login_screen.dart';
 // import 'package:gofarmin_app/screens/agricuture_gov/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/members/auth/login_screen.dart';
 
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({super.key});
@@ -86,8 +87,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginMemberScreen());
-                        print('Oke');
+                        Get.offAll(const LoginMemberScreen());
                       },
                       child: const Text(
                         'Member',
