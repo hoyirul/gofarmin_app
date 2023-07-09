@@ -5,7 +5,7 @@ import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/goat_list_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/tab_gender_component.dart';
+import 'package:gofarmin_app/screens/components/tab_button_component.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
 
 class DetailMemberInvestorScreen extends StatefulWidget {
@@ -118,7 +118,7 @@ class _DetailMemberInvestorScreenState
                 Row(
                   children: const [
                     Expanded(
-                        child: TabGenderComponent(
+                        child: TabButtonComponent(
                       text: 'Jantan',
                       colors: ColorPicker.primary,
                     )),
@@ -126,7 +126,7 @@ class _DetailMemberInvestorScreenState
                       width: 10,
                     ),
                     Expanded(
-                        child: TabGenderComponent(
+                        child: TabButtonComponent(
                       text: 'Betina',
                       colors: ColorPicker.grey,
                     )),

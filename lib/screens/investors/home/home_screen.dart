@@ -12,6 +12,7 @@ import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
+import 'package:gofarmin_app/screens/investors/transactions/portofolio_screen.dart';
 
 class HomeInvestorScreen extends StatefulWidget {
   const HomeInvestorScreen({super.key});
@@ -133,7 +134,8 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                print('Portofolio');
+                                Get.to(const PortofolioInvestorScreen(),
+                                    transition: Transition.fadeIn);
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/majestic.svg',

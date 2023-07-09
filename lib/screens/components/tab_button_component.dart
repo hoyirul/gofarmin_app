@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 
-class TabGenderComponent extends StatelessWidget {
+class TabButtonComponent extends StatelessWidget {
   final String text;
   final Color colors;
-  const TabGenderComponent(
+  const TabButtonComponent(
       {super.key, required this.text, required this.colors});
 
   @override
@@ -27,7 +27,7 @@ class TabGenderComponent extends StatelessWidget {
             child: Text(
           text,
           style: TextStyle(
-              color: colors, fontFamily: FontPicker.medium, fontSize: 16),
+              color: colors, fontFamily: FontPicker.medium, fontSize: 14),
         )),
       ),
     );

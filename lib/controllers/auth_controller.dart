@@ -148,7 +148,6 @@ class AuthController extends GetxController {
           final response = await http.post(url,
               body: jsonEncode(body),
               headers: HeaderHelper().headersUnlogged());
-          print(response.body);
           if (response.statusCode == 200) {
             nameController.clear();
             emailController.clear();
