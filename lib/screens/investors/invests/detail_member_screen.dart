@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/tab_button_component.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/investors/invests/detail_goat_screen.dart';
 
 class DetailMemberInvestorScreen extends StatefulWidget {
   const DetailMemberInvestorScreen({super.key});
@@ -142,13 +143,67 @@ class _DetailMemberInvestorScreenState
                   crossAxisCount: 2,
                   childAspectRatio: (4 / 6),
                   shrinkWrap: true,
-                  children: const [
-                    GoatListComponent(),
-                    GoatListComponent(),
-                    GoatListComponent(),
-                    GoatListComponent(),
-                    GoatListComponent(),
-                    GoatListComponent(),
+                  children: [
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            Get.to(const DetailGoatInvestorScreen(),
+                                transition: Transition.native);
+                          },
+                          child: const Text(
+                            'Invest Now',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            Get.to(const DetailGoatInvestorScreen(),
+                                transition: Transition.native);
+                          },
+                          child: const Text(
+                            'Invest Now',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            Get.to(const DetailGoatInvestorScreen(),
+                                transition: Transition.native);
+                          },
+                          child: const Text(
+                            'Invest Now',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            Get.to(const DetailGoatInvestorScreen(),
+                                transition: Transition.native);
+                          },
+                          child: const Text(
+                            'Invest Now',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
                   ],
                 )
               ],

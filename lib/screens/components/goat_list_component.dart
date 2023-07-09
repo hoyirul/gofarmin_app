@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
@@ -6,7 +8,10 @@ import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_goat_screen.dart';
 
 class GoatListComponent extends StatelessWidget {
-  const GoatListComponent({super.key});
+  final String price;
+  final TextButton route;
+  const GoatListComponent(
+      {super.key, required this.price, required this.route});
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +51,10 @@ class GoatListComponent extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerRight,
-                  child: Text('1,299K',
-                      style: TextStyle(
+                  child: Text(price,
+                      style: const TextStyle(
                           fontFamily: FontPicker.bold,
                           fontSize: 22,
                           color: ColorPicker.dark)),
@@ -61,46 +66,7 @@ class GoatListComponent extends StatelessWidget {
                     height: 40,
                     width: double.infinity,
                     colors: ColorPicker.rectangle,
-                    button: TextButton(
-                        onPressed: () {
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) {
-                          //     return AlertDialog(
-                          //       title: const Text('Kambing Kacang'),
-                          //       content: const TextField(
-                          //         decoration: InputDecoration(
-                          //           hintText: 'Enter your name',
-                          //         ),
-                          //       ),
-                          //       actions: [
-                          //         TextButton(
-                          //           child: const Text('Cancel'),
-                          //           onPressed: () {
-                          //             Navigator.of(context).pop();
-                          //           },
-                          //         ),
-                          //         TextButton(
-                          //           child: const Text('OK'),
-                          //           onPressed: () {
-                          //             // Proses data dari inputan di sini
-                          //             Navigator.of(context).pop();
-                          //           },
-                          //         ),
-                          //       ],
-                          //     );
-                          //   },
-                          // );
-                          Get.to(const DetailGoatInvestorScreen(),
-                              transition: Transition.native);
-                        },
-                        child: const Text(
-                          'Invest Now',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: FontPicker.semibold,
-                              color: ColorPicker.primary),
-                        ))),
+                    button: route),
               ],
             ),
           )

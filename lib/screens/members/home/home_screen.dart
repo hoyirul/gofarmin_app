@@ -5,14 +5,13 @@ import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/banner_component.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
+import 'package:gofarmin_app/screens/components/goat_list_component.dart';
 import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/members/accounts/account_screen.dart';
-import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/members/goats/goat_list_screen.dart';
 // import 'package:gofarmin_app/screens/members/invests/detail_member_screen.dart';
-// import 'package:gofarmin_app/screens/members/transactions/portofolio_screen.dart';
 // import 'package:gofarmin_app/screens/members/transactions/transaction_screen.dart';
 
 class HomeMemberScreen extends StatefulWidget {
@@ -135,13 +134,13 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                       Expanded(
                           child: InkWell(
                               onTap: () {
-                                // Get.to(const PortofolioInvestorScreen(),
-                                //     transition: Transition.fadeIn);
-                                print('Portofolio');
+                                Get.to(const GoatListMemberScreen(),
+                                    transition: Transition.fadeIn);
+                                // print('Portofolio');
                               },
                               child: const HomeFeatureComponent(
                                   icons: 'assets/icons/majestic.svg',
-                                  title: 'Portofolio'))),
+                                  title: 'Goat Lists'))),
                       const SizedBox(
                         width: 20,
                       ),
@@ -201,43 +200,87 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Investments',
+                      'Recent Goats',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           color: ColorPicker.dark,
                           fontSize: 18),
                     )),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 GridView.count(
                   padding: const EdgeInsets.all(0),
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 15,
                   crossAxisCount: 2,
-                  childAspectRatio: (4 / 5),
+                  childAspectRatio: (4 / 6),
                   shrinkWrap: true,
-                  children: const [
-                    // InkWell(
-                    //     onTap: () {
-                    //       Get.off(const DetailMemberInvestorScreen());
-                    //     },
-                    //     child: const MemberListComponent()),
-                    // InkWell(
-                    //     onTap: () {
-                    //       Get.off(const DetailMemberInvestorScreen());
-                    //     },
-                    //     child: const MemberListComponent()),
-                    // InkWell(
-                    //     onTap: () {
-                    //       Get.off(const DetailMemberInvestorScreen());
-                    //     },
-                    //     child: const MemberListComponent()),
-                    // InkWell(
-                    //     onTap: () {
-                    //       Get.off(const DetailMemberInvestorScreen());
-                    //     },
-                    //     child: const MemberListComponent()),
+                  children: [
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            // Get.to(const DetailGoatInvestorScreen(),
+                            //     transition: Transition.native);
+                            print('Test');
+                          },
+                          child: const Text(
+                            'Edit Data',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            // Get.to(const DetailGoatInvestorScreen(),
+                            //     transition: Transition.native);
+                            print('Test');
+                          },
+                          child: const Text(
+                            'Edit Data',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            // Get.to(const DetailGoatInvestorScreen(),
+                            //     transition: Transition.native);
+                            print('Test');
+                          },
+                          child: const Text(
+                            'Edit Data',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
+                    GoatListComponent(
+                      price: '1,299K',
+                      route: TextButton(
+                          onPressed: () {
+                            // Get.to(const DetailGoatInvestorScreen(),
+                            //     transition: Transition.native);
+                            print('Test');
+                          },
+                          child: const Text(
+                            'Edit Data',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: FontPicker.semibold,
+                                color: ColorPicker.primary),
+                          )),
+                    ),
                   ],
                 )
               ],
