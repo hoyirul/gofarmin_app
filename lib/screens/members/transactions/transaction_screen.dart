@@ -5,17 +5,17 @@ import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 
-class TransactionInvestorScreen extends StatefulWidget {
-  const TransactionInvestorScreen({super.key});
+class TransactionMemberScreen extends StatefulWidget {
+  const TransactionMemberScreen({super.key});
 
   @override
-  State<TransactionInvestorScreen> createState() =>
-      _TransactionInvestorScreenState();
+  State<TransactionMemberScreen> createState() =>
+      _TransactionMemberScreenState();
 }
 
-class _TransactionInvestorScreenState extends State<TransactionInvestorScreen> {
+class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
 
@@ -105,7 +105,7 @@ class _TransactionInvestorScreenState extends State<TransactionInvestorScreen> {
                 top: 50,
                 right: 25,
                 child: InkWell(
-                  onTap: () => Get.to(const HomeInvestorScreen(),
+                  onTap: () => Get.to(const HomeMemberScreen(),
                       transition: Transition.fadeIn),
                   child: Container(
                     padding: const EdgeInsets.all(5),

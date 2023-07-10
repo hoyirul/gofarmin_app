@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
@@ -15,7 +16,7 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
-      TextEditingController(text: 'member2@gmail.com');
+      TextEditingController(text: 'peternakan@gmail.com');
   TextEditingController passwordController =
       TextEditingController(text: 'password');
   TextEditingController passwordConfimationController = TextEditingController();
@@ -84,7 +85,6 @@ class AuthController extends GetxController {
                   json['data']['user']['member']['member_status']);
               prefs.setString('gov_number', 'none');
               Get.off(const HomeMemberScreen());
-              print('Member');
               break;
             case 'farm':
               prefs.setInt(
@@ -96,8 +96,7 @@ class AuthController extends GetxController {
               prefs.setString('member_status', '');
               prefs.setString('gov_number',
                   json['data']['user']['government']['gov_number'] ?? '');
-              // Get.off(const HomeFarmGovScreen());
-              print('Farm');
+              Get.off(const HomeFarmGovScreen());
               break;
             case 'agriculture':
               prefs.setInt(
