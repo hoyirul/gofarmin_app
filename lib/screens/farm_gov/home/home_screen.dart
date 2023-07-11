@@ -5,12 +5,14 @@ import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/banner_component.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
+import 'package:gofarmin_app/screens/components/checking_list_component.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/farm_gov/accounts/account_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/monitorings/detail_farm_screen.dart';
 
 class HomeFarmGovScreen extends StatefulWidget {
   const HomeFarmGovScreen({super.key});
@@ -34,12 +36,12 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(0),
-                height: 260,
+                height: 160,
                 color: Colors.transparent,
               ),
               Container(
                 padding: const EdgeInsets.all(0),
-                height: 200,
+                height: 160,
                 decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(50)),
@@ -51,8 +53,8 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
                 child: CircleComponent(height: 150, width: 150),
               ),
               const Positioned(
-                left: -25,
-                top: 50,
+                left: -30,
+                top: 10,
                 child: CircleComponent(height: 100, width: 100),
               ),
               Positioned(
@@ -94,10 +96,11 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
                 child: ButtonComponent(
                   button: TextButton(
                     onPressed: () {
-                      authController.logout();
+                      Get.to(const AccountFarmGovScreen(),
+                          transition: Transition.fadeIn);
                     },
                     child: const Text(
-                      'Logout',
+                      'Settings',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           fontSize: 12,
@@ -109,69 +112,10 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
                   width: 120,
                 ),
               ),
-              Positioned(
-                top: 150,
-                left: 25,
-                right: 25,
-                child: Container(
-                  padding: const EdgeInsets.only(
-                      top: 15, bottom: 15, left: 25, right: 25),
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: ColorPicker.white,
-                      boxShadow: const [
-                        BoxShadow(
-                            color: ColorPicker.greyLight,
-                            offset: Offset(0, 1),
-                            blurRadius: 1)
-                      ]),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                // Get.to(const PortofolioInvestorScreen(),
-                                //     transition: Transition.fadeIn);
-                                print('1');
-                              },
-                              child: const HomeFeatureComponent(
-                                  icons: 'assets/icons/majestic.svg',
-                                  title: 'Portofolio'))),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                // Get.to(const TransactionInvestorScreen(),
-                                //     transition: Transition.fadeIn);
-                                print('2');
-                              },
-                              child: const HomeFeatureComponent(
-                                  icons: 'assets/icons/mingcute.svg',
-                                  title: 'Transactions'))),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(const AccountFarmGovScreen(),
-                                    transition: Transition.fadeIn);
-                              },
-                              child: const HomeFeatureComponent(
-                                  icons: 'assets/icons/account.svg',
-                                  title: 'Account'))),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 15,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
@@ -198,7 +142,7 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Investments',
+                      'Farm List',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           color: ColorPicker.dark,
@@ -217,24 +161,25 @@ class _HomeFarmGovScreenState extends State<HomeFarmGovScreen> {
                   children: [
                     InkWell(
                         onTap: () {
-                          // test
+                          Get.to(const DetailFarmFarmGovScreen(),
+                              transition: Transition.circularReveal);
                         },
-                        child: const MemberListComponent()),
+                        child: const CheckingListComponent()),
                     InkWell(
                         onTap: () {
                           // test
                         },
-                        child: const MemberListComponent()),
+                        child: const CheckingListComponent()),
                     InkWell(
                         onTap: () {
                           // test
                         },
-                        child: const MemberListComponent()),
+                        child: const CheckingListComponent()),
                     InkWell(
                         onTap: () {
                           // test
                         },
-                        child: const MemberListComponent()),
+                        child: const CheckingListComponent()),
                   ],
                 )
               ],

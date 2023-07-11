@@ -4,6 +4,7 @@ import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
 // import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 // import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
@@ -46,7 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
               () => Get.off(const HomeMemberScreen()));
           break;
         case 4:
-          // Timer(const Duration(seconds: 3), () => Get.off(const HomeFarmGovScreen()));
+          Timer(const Duration(seconds: 3),
+              () => Get.off(const HomeFarmGovScreen()));
           break;
         case 5:
           // Timer(const Duration(seconds: 3), () => Get.off(const HomeAgricultureGovScreen()));
