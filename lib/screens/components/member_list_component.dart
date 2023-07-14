@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class MemberListComponent extends StatelessWidget {
   const MemberListComponent({super.key});
@@ -24,7 +25,7 @@ class MemberListComponent extends StatelessWidget {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             child: Image.network(
-              'http://192.168.1.13:8000/images/members/member1.jpg',
+              '${HttpHelper().url}/images/members/member1.jpg',
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitHeight,
             ),

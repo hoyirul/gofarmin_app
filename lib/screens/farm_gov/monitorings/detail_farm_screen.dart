@@ -6,6 +6,7 @@ import 'package:gofarmin_app/screens/components/button_monitoring_component.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class DetailFarmFarmGovScreen extends StatefulWidget {
   const DetailFarmFarmGovScreen({super.key});
@@ -41,7 +42,7 @@ class _DetailFarmFarmGovScreenState extends State<DetailFarmFarmGovScreen> {
                     bottomLeft: Radius.circular(50),
                   ),
                   child: Image.network(
-                    'http://192.168.1.13:8000/images/members/member4.jpg',
+                    '${HttpHelper().url}/images/members/member4.jpg',
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),

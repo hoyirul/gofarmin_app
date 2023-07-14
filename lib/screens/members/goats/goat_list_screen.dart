@@ -5,10 +5,10 @@ import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/goat_list_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/tab_button_component.dart';
 import 'package:gofarmin_app/screens/members/goats/add_goat_screen.dart';
 import 'package:gofarmin_app/screens/members/goats/edit_goat_screen.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class GoatListMemberScreen extends StatefulWidget {
   const GoatListMemberScreen({super.key});
@@ -51,7 +51,7 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                         bottomLeft: Radius.circular(50),
                       ),
                       child: Image.network(
-                        'http://192.168.1.13:8000/images/members/member4.jpg',
+                        '${HttpHelper().url}/images/members/member4.jpg',
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fitWidth,
                       ),

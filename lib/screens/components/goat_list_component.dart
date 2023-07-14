@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
-import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/investors/invests/detail_goat_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class GoatListComponent extends StatelessWidget {
   final String price;
@@ -32,7 +29,7 @@ class GoatListComponent extends StatelessWidget {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             child: Image.network(
-              'http://192.168.1.13:8000/images/members/member3.jpg',
+              '${HttpHelper().url}/images/members/member3.jpg',
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitHeight,
             ),

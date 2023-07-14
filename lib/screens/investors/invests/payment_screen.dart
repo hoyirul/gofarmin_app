@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class PaymentInvestorScreen extends StatefulWidget {
   const PaymentInvestorScreen({super.key});
@@ -58,7 +59,7 @@ class _PaymentInvestorScreenState extends State<PaymentInvestorScreen> {
                     bottomRight: Radius.circular(50),
                   ),
                   child: Image.network(
-                    'http://192.168.1.13:8000/images/members/member3.jpg',
+                    '${HttpHelper().url}/images/members/member3.jpg',
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),

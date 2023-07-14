@@ -11,6 +11,7 @@ import 'package:gofarmin_app/screens/components/input_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
 import 'package:gofarmin_app/screens/investors/invests/payment_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class DetailGoatInvestorScreen extends StatefulWidget {
   const DetailGoatInvestorScreen({super.key});
@@ -46,7 +47,7 @@ class _DetailGoatInvestorScreenState extends State<DetailGoatInvestorScreen> {
                     bottomRight: Radius.circular(50),
                   ),
                   child: Image.network(
-                    'http://192.168.1.13:8000/images/members/member3.jpg',
+                    '${HttpHelper().url}/images/members/member3.jpg',
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fitWidth,
                   ),
