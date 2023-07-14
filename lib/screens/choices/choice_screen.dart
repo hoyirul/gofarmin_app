@@ -1,5 +1,6 @@
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/farm_gov/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/investors/auth/login_screen.dart';
@@ -121,8 +122,7 @@ class ChoiceScreen extends StatelessWidget {
                   colors: ColorPicker.white,
                   button: TextButton(
                       onPressed: () {
-                        // Get.offAll(const LoginAgricultureGovScreen());
-                        print('Oke');
+                        Get.offAll(const LoginAgricultureGovScreen());
                       },
                       child: const Text(
                         'Dinas Ketahanan Pangan',

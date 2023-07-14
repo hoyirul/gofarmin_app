@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
 import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
@@ -16,7 +17,7 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
-      TextEditingController(text: 'peternakan@gmail.com');
+      TextEditingController(text: 'pertanian@gmail.com');
   TextEditingController passwordController =
       TextEditingController(text: 'password');
   TextEditingController passwordConfimationController = TextEditingController();
@@ -108,8 +109,7 @@ class AuthController extends GetxController {
               prefs.setString('member_status', '');
               prefs.setString('gov_number',
                   json['data']['user']['government']['gov_number'] ?? '');
-              // Get.off(const HomeAgricultureGovScreen());
-              print('Agriculture');
+              Get.off(const HomeAgricultureGovScreen());
               break;
           }
         } else if (response.statusCode == 400) {
