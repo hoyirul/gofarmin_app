@@ -1,6 +1,7 @@
 import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/components/alert_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/screens/components/header_account_component.dart';
 import 'package:gofarmin_app/screens/components/setting_component.dart';
@@ -86,19 +87,9 @@ class _AccountFarmGovScreenState extends State<AccountFarmGovScreen> {
                   await showDialog(
                     context: context,
                     builder: (context) {
-                      return const SimpleDialog(
-                        alignment: Alignment.center,
-                        title: Text(
-                          'Information',
-                          style: TextStyle(
-                              color: ColorPicker.green,
-                              fontFamily: FontPicker.medium),
-                        ),
-                        contentPadding: EdgeInsets.all(20),
-                        children: [
-                          Text('You can chat me on Whatsapp : +628574577438')
-                        ],
-                      );
+                      return const AlertDialogComponent(
+                          message:
+                              'What should we do (Whatsapp : +628574635637) ?');
                     },
                   );
                 },

@@ -132,7 +132,7 @@ class _DetailFarmAgricultureGovScreenState
                     Expanded(
                         child: InkWell(
                       child: ButtonMonitoringComponent(
-                        text: 'Monitoring Peternakan',
+                        text: 'Monitoring Stok Pakan',
                         height: 100,
                         bg: ColorPicker.primary,
                         textColor: ColorPicker.white,
@@ -144,35 +144,7 @@ class _DetailFarmAgricultureGovScreenState
                     Expanded(
                         child: InkWell(
                       child: ButtonMonitoringComponent(
-                        text: 'Monitoring Tempat Ternak',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Monitoring Hewan Ternak',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Cek Kelayakan Peternakan',
+                        text: 'Cek Kelayakan Pakan',
                         height: 100,
                         bg: ColorPicker.primary,
                         textColor: ColorPicker.white,
