@@ -1,12 +1,15 @@
 import 'dart:convert';
-
-import 'package:gofarmin_app/pickers/color_pickers.dart';
-import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
 import 'package:gofarmin_app/screens/choices/choice_screen.dart';
+import 'package:gofarmin_app/screens/components/alert_dialog_component.dart';
+import 'package:gofarmin_app/screens/farm_gov/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
+import 'package:gofarmin_app/screens/investors/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/members/auth/login_screen.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
+import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:flutter/material.dart';
@@ -24,19 +27,12 @@ class AuthController extends GetxController {
 
   final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
 
-  void showAlert(title, error, Color colors) {
+  void showAlert(message) {
     Get.back();
     showDialog(
         context: Get.context!,
         builder: (context) {
-          return SimpleDialog(
-            title: Text(
-              title,
-              style: TextStyle(color: colors, fontFamily: FontPicker.medium),
-            ),
-            contentPadding: const EdgeInsets.all(20),
-            children: [Text(error)],
-          );
+          return AlertDialogComponent(message: message);
         });
   }
 
@@ -48,8 +44,7 @@ class AuthController extends GetxController {
     };
 
     if (emailController.text == '' || passwordController.text == '') {
-      showAlert(
-          'Warning', 'Email or Password must be filled!', ColorPicker.warning);
+      AlertHelper().showAlert('Email or Password must be filled!');
     } else {
       try {
         final response = await http.post(url,
@@ -77,15 +72,29 @@ class AuthController extends GetxController {
               Get.off(const HomeInvestorScreen());
               break;
             case 'member':
-              prefs.setInt(
-                  'user_role_id', json['data']['user']['member']['id']);
-              prefs.setString('name', json['data']['user']['member']['name']);
-              prefs.setString(
-                  'address', json['data']['user']['member']['address'] ?? '');
-              prefs.setString('member_status',
-                  json['data']['user']['member']['member_status']);
-              prefs.setString('gov_number', 'none');
-              Get.off(const HomeMemberScreen());
+              switch (json['data']['user']['member']['member_status']) {
+                case 'not-worthy':
+                  AlertHelper().showAlert(
+                      'Your account is still in the checking process!');
+                  await http.post(url,
+                      headers: HeaderHelper().headersLogged(
+                          prefs.getString('token_type'),
+                          prefs.getString('access_token')));
+                  prefs.clear();
+                  Get.off(const LoginMemberScreen());
+                  break;
+                default:
+                  prefs.setInt(
+                      'user_role_id', json['data']['user']['member']['id']);
+                  prefs.setString(
+                      'name', json['data']['user']['member']['name']);
+                  prefs.setString('address',
+                      json['data']['user']['member']['address'] ?? '');
+                  prefs.setString('member_status',
+                      json['data']['user']['member']['member_status']);
+                  prefs.setString('gov_number', 'none');
+                  Get.off(const HomeMemberScreen());
+              }
               break;
             case 'farm':
               prefs.setInt(
@@ -118,7 +127,7 @@ class AuthController extends GetxController {
           throw jsonDecode(response.body)["errors"] ?? "Unknown Error Occured";
         }
       } catch (error) {
-        showAlert('Error', error.toString(), ColorPicker.danger);
+        AlertHelper().showAlert(error.toString());
       }
     }
   }
@@ -135,14 +144,11 @@ class AuthController extends GetxController {
         passwordController.text == '' ||
         passwordController.text == '' ||
         passwordConfimationController.text == '') {
-      showAlert(
-          'Warning',
-          'Name, Email, Password and Confirm Password must be filled!',
-          Colors.amber);
+      AlertHelper().showAlert(
+          'Name, Email, Password and Confirm Password must be filled!');
     } else {
       if (passwordConfimationController.text != passwordController.text) {
-        showAlert('Warning', 'Your password confirmation doesn`t match!',
-            ColorPicker.warning);
+        AlertHelper().showAlert('Your password confirmation doesn`t match!');
       } else {
         try {
           final response = await http.post(url,
@@ -155,26 +161,20 @@ class AuthController extends GetxController {
             passwordConfimationController.clear();
             switch (role) {
               case 'investor':
-                // Get.off(const LoginInvestorScreen());
-                print('Investor');
+                Get.off(const LoginInvestorScreen());
                 break;
               case 'member':
-                // Get.off(const LoginMemberScreen());
-                print('Member');
+                Get.off(const LoginMemberScreen());
                 break;
               case 'farm':
-                // Get.off(const LoginFarmGovScreen());
-                print('Farm');
+                Get.off(const LoginFarmGovScreen());
                 break;
               case 'agriculture':
-                // Get.off(const LoginAgricultureGovScreen());
-                print('Agriculture');
+                Get.off(const LoginAgricultureGovScreen());
                 break;
             }
-            showAlert(
-                'Success',
-                'your account has been registered and please login!',
-                Colors.green);
+            AlertHelper().showAlert(
+                'your account has been registered and please login!');
           } else if (response.statusCode == 400) {
             throw jsonDecode(response.body)["errors"] ??
                 "Unknown Error Occured";
@@ -185,7 +185,7 @@ class AuthController extends GetxController {
                 "Unknown Error Occured";
           }
         } catch (error) {
-          showAlert('Error', error.toString(), ColorPicker.danger);
+          AlertHelper().showAlert(error.toString());
         }
       }
     }
@@ -205,7 +205,7 @@ class AuthController extends GetxController {
         throw jsonDecode(response.body)["errors"] ?? "Unknown Error Occured";
       }
     } catch (error) {
-      showAlert('Error', error.toString(), ColorPicker.danger);
+      AlertHelper().showAlert(error.toString());
     }
   }
 }

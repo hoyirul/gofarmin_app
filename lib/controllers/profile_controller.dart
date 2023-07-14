@@ -1,12 +1,9 @@
 import 'dart:convert';
-
-import 'package:gofarmin_app/pickers/color_pickers.dart';
-import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/accounts/account_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/accounts/account_screen.dart';
 import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
-// import 'package:gofarmin_app/screens/investors/account/account_screen.dart';
-// import 'package:gofarmin_app/screens/members/account/account_screen.dart';
-// import 'package:gofarmin_app/screens/farm_gov/account/account_screen.dart';
-// import 'package:gofarmin_app/screens/agriculture_gov/account/account_screen.dart';
+import 'package:gofarmin_app/screens/members/accounts/account_screen.dart';
+import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:flutter/material.dart';
@@ -85,21 +82,6 @@ class ProfileController extends GetxController {
     return prefs.getString('gov_number');
   }
 
-  void showAlert(title, error, Color colors) {
-    showDialog(
-        context: Get.context!,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text(
-              title,
-              style: TextStyle(color: colors, fontFamily: FontPicker.medium),
-            ),
-            contentPadding: const EdgeInsets.all(20),
-            children: [Text(error)],
-          );
-        });
-  }
-
   Future<void> updateProfile(role) async {
     final prefs = await _prefs;
     final id = prefs.getInt('id');
@@ -119,25 +101,20 @@ class ProfileController extends GetxController {
 
         switch (role) {
           case 'investor':
-            // Get.off(const AccountInvestorScreen());
-            print('Investor');
+            Get.off(const AccountInvestorScreen());
             break;
           case 'member':
-            // Get.off(const AccountMemberScreen());
-            print('Member');
+            Get.off(const AccountMemberScreen());
             break;
           case 'farm':
-            // Get.off(const AccountFarmGovScreen());
-            print('Farm');
+            Get.off(const AccountFarmGovScreen());
             break;
           case 'agriculture':
-            // Get.off(const AccountAgricultureGovScreen());
-            print('Agriculture');
+            Get.off(const AccountAgricultureGovScreen());
             break;
         }
 
-        showAlert(
-            'Success', 'Your profile has been updated!', ColorPicker.green);
+        AlertHelper().showAlert('Your profile has been updated!');
       } else if (response.statusCode == 422) {
         var data = jsonDecode(response.body)["data"];
         throw (data["name"] != null) ? data["name"] : data["address"];
@@ -145,7 +122,7 @@ class ProfileController extends GetxController {
         throw jsonDecode(response.body)["errors"] ?? "Unknown Error Occured";
       }
     } catch (error) {
-      showAlert('Error', error.toString(), ColorPicker.danger);
+      AlertHelper().showAlert(error.toString());
     }
   }
 
@@ -188,8 +165,7 @@ class ProfileController extends GetxController {
             break;
         }
 
-        showAlert(
-            'Success', 'Your password has been updated!', ColorPicker.green);
+        AlertHelper().showAlert('Your password has been updated!');
       } else if (response.statusCode == 400) {
         throw jsonDecode(response.body)["errors"] ?? "Unknown Error Occured";
       } else if (response.statusCode == 422) {
@@ -201,7 +177,7 @@ class ProfileController extends GetxController {
         throw jsonDecode(response.body)["errors"] ?? "Unknown Error Occured";
       }
     } catch (error) {
-      showAlert('Error', error.toString(), ColorPicker.danger);
+      AlertHelper().showAlert(error.toString());
     }
   }
 }
