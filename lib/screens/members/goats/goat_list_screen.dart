@@ -135,6 +135,7 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                       shrinkWrap: true,
                       children: [
                         GoatListComponent(
+                          img: 'member1',
                           price: '1,299K',
                           route: TextButton(
                               onPressed: () {
@@ -150,6 +151,7 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                               )),
                         ),
                         GoatListComponent(
+                          img: 'member1',
                           price: '1,299K',
                           route: TextButton(
                               onPressed: () {

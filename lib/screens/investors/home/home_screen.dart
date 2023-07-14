@@ -220,22 +220,30 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                         onTap: () {
                           Get.off(const DetailMemberInvestorScreen());
                         },
-                        child: const MemberListComponent()),
+                        child: const MemberListComponent(
+                          img: 'member1',
+                        )),
                     InkWell(
                         onTap: () {
                           Get.off(const DetailMemberInvestorScreen());
                         },
-                        child: const MemberListComponent()),
+                        child: const MemberListComponent(
+                          img: 'member2',
+                        )),
                     InkWell(
                         onTap: () {
                           Get.off(const DetailMemberInvestorScreen());
                         },
-                        child: const MemberListComponent()),
+                        child: const MemberListComponent(
+                          img: 'member3',
+                        )),
                     InkWell(
                         onTap: () {
                           Get.off(const DetailMemberInvestorScreen());
                         },
-                        child: const MemberListComponent()),
+                        child: const MemberListComponent(
+                          img: 'member4',
+                        )),
                   ],
                 )
               ],

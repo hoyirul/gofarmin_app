@@ -146,6 +146,7 @@ class _DetailMemberInvestorScreenState
                   shrinkWrap: true,
                   children: [
                     GoatListComponent(
+                      img: 'member1',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -161,6 +162,7 @@ class _DetailMemberInvestorScreenState
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member2',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -176,6 +178,7 @@ class _DetailMemberInvestorScreenState
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member3',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -191,6 +194,7 @@ class _DetailMemberInvestorScreenState
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member4',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {

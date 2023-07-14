@@ -216,6 +216,7 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                   shrinkWrap: true,
                   children: [
                     GoatListComponent(
+                      img: 'member1',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -232,6 +233,7 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member1',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -248,6 +250,7 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member1',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
@@ -264,6 +267,7 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                           )),
                     ),
                     GoatListComponent(
+                      img: 'member1',
                       price: '1,299K',
                       route: TextButton(
                           onPressed: () {
