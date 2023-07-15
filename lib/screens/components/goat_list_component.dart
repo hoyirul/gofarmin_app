@@ -30,7 +30,7 @@ class GoatListComponent extends StatelessWidget {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             child: Image.network(
-              '${HttpHelper().url}/images/members/$img.jpg',
+              '${HttpHelper().url}/storage/$img',
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitHeight,
             ),

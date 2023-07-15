@@ -76,9 +76,10 @@ class _PaymentInvestorScreenState extends State<PaymentInvestorScreen> {
                         return ConfirmDialogComponent(
                           message: 'Are you sure to cancel this transaction?',
                           confirm: InkWell(
-                              onTap: () => Get.to(
-                                  const DetailMemberInvestorScreen(),
-                                  transition: Transition.circularReveal),
+                              onTap: () => print('oke'),
+                              // onTap: () => Get.to(
+                              //     const DetailMemberInvestorScreen(),
+                              //     transition: Transition.circularReveal),
                               child: const ButtonAlertComponent(
                                 text: 'Yes',
                                 colors: ColorPicker.primary,

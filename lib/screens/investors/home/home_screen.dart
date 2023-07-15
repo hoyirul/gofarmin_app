@@ -1,4 +1,5 @@
 import 'package:gofarmin_app/controllers/auth_controller.dart';
+import 'package:gofarmin_app/controllers/investors/member_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
@@ -10,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/member_list_component.dart';
 import 'package:gofarmin_app/screens/investors/accounts/account_screen.dart';
-import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
 import 'package:gofarmin_app/screens/investors/transactions/portofolio_screen.dart';
 import 'package:gofarmin_app/screens/investors/transactions/transaction_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class HomeInvestorScreen extends StatefulWidget {
   const HomeInvestorScreen({super.key});
@@ -25,6 +26,7 @@ class HomeInvestorScreen extends StatefulWidget {
 class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
+  MemberController memberController = Get.put(MemberController());
 
   @override
   Widget build(BuildContext context) {
@@ -208,44 +210,37 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                GridView.count(
-                  padding: const EdgeInsets.all(0),
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: (4 / 5),
-                  shrinkWrap: true,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent(
-                          img: 'member1',
-                        )),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent(
-                          img: 'member2',
-                        )),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent(
-                          img: 'member3',
-                        )),
-                    InkWell(
-                        onTap: () {
-                          Get.off(const DetailMemberInvestorScreen());
-                        },
-                        child: const MemberListComponent(
-                          img: 'member4',
-                        )),
-                  ],
-                )
+                Obx(() {
+                  if (memberController.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: memberController.memberList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                      itemBuilder: (context, index) {
+                        final row = memberController.memberList[index];
+                        return InkWell(
+                            onTap: () {
+                              Get.off(DetailMemberInvestorScreen(id: row.id));
+                            },
+                            child: MemberListComponent(
+                              name: row.name,
+                              address: row.address,
+                              img: (row.ktp == null)
+                                  ? '${HttpHelper().url}/images/members/default-member.jpg'
+                                  : row.ktp,
+                            ));
+                      },
+                    );
+                  }
+                }),
               ],
             ),
           )
