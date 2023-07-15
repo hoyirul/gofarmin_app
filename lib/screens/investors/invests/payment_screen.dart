@@ -453,29 +453,17 @@ class _PaymentInvestorScreenState extends State<PaymentInvestorScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Center(
-                                    child: Text(
-                                  'Are you sure?',
-                                  style: TextStyle(
-                                      fontFamily: FontPicker.medium,
-                                      color: ColorPicker.dark,
-                                      fontSize: 16),
-                                )),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('Cancel'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      print('oke');
-                                    },
-                                  ),
-                                ],
+                              return ConfirmDialogComponent(
+                                message: 'Are you sure?',
+                                confirm: InkWell(
+                                    onTap: () => print('oke'),
+                                    // onTap: () => Get.to(
+                                    //     const DetailMemberInvestorScreen(),
+                                    //     transition: Transition.circularReveal),
+                                    child: const ButtonAlertComponent(
+                                      text: 'Yes',
+                                      colors: ColorPicker.primary,
+                                    )),
                               );
                             },
                           );
