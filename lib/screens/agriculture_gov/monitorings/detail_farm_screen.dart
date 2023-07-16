@@ -1,5 +1,4 @@
-import 'package:gofarmin_app/controllers/auth_controller.dart';
-import 'package:gofarmin_app/controllers/profile_controller.dart';
+import 'package:gofarmin_app/controllers/agriculture_gov/member_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
@@ -9,7 +8,8 @@ import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class DetailFarmAgricultureGovScreen extends StatefulWidget {
-  const DetailFarmAgricultureGovScreen({super.key});
+  final int id;
+  const DetailFarmAgricultureGovScreen({super.key, required this.id});
 
   @override
   State<DetailFarmAgricultureGovScreen> createState() =>
@@ -18,11 +18,11 @@ class DetailFarmAgricultureGovScreen extends StatefulWidget {
 
 class _DetailFarmAgricultureGovScreenState
     extends State<DetailFarmAgricultureGovScreen> {
-  AuthController authController = Get.put(AuthController());
-  ProfileController profileController = Get.put(ProfileController());
+  MemberController memberController = Get.put(MemberController());
 
   @override
   Widget build(BuildContext context) {
+    final members = memberController.getById(widget.id);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -42,10 +42,23 @@ class _DetailFarmAgricultureGovScreenState
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(50),
                   ),
-                  child: Image.network(
-                    '${HttpHelper().url}/images/members/member4.jpg',
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.fitWidth,
+                  child: FutureBuilder(
+                    future: members,
+                    builder: (context, snapshot) {
+                      if (snapshot.data?.ktp == null) {
+                        return Image.network(
+                          '${HttpHelper().url}/images/members/default-member.jpg',
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fitWidth,
+                        );
+                      } else {
+                        return Image.network(
+                          fit: BoxFit.fitWidth,
+                          '${HttpHelper().url}/storage/${snapshot.data?.ktp}',
+                          width: MediaQuery.of(context).size.width,
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
@@ -79,39 +92,55 @@ class _DetailFarmAgricultureGovScreenState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
+                Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Peternakan Al Hidayah',
-                      style: TextStyle(
-                          fontFamily: FontPicker.bold,
-                          color: ColorPicker.dark,
-                          fontSize: 22),
+                    child: FutureBuilder(
+                      future: members,
+                      builder: (context, snapshot) {
+                        return Text(
+                          '${snapshot.data?.name}',
+                          style: const TextStyle(
+                              fontFamily: FontPicker.bold,
+                              color: ColorPicker.dark,
+                              fontSize: 22),
+                        );
+                      },
                     )),
                 const SizedBox(
                   height: 8,
                 ),
-                const Align(
+                Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Jl. Raya Tumbang, Malang, Jawa Timur',
-                      style: TextStyle(
-                          fontFamily: FontPicker.regular,
-                          color: ColorPicker.primary,
-                          fontSize: 12),
+                    child: FutureBuilder(
+                      future: members,
+                      builder: (context, snapshot) {
+                        return Text(
+                          '${snapshot.data?.address}',
+                          style: const TextStyle(
+                              fontFamily: FontPicker.regular,
+                              color: ColorPicker.primary,
+                              fontSize: 12),
+                        );
+                      },
                     )),
                 const SizedBox(
                   height: 5,
                 ),
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Peternakan ini telah terverifikasi oleh GoFarmin dan sudah bisa berinvestasi di peternakan ini. Selamat berinvestasi nyata.',
-                      style: TextStyle(
-                          fontFamily: FontPicker.regular,
-                          color: ColorPicker.grey,
-                          fontSize: 12),
-                    )),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FutureBuilder(
+                    future: members,
+                    builder: (context, snapshot) {
+                      return Text(
+                        '${snapshot.data?.description}',
+                        style: const TextStyle(
+                            fontFamily: FontPicker.regular,
+                            color: ColorPicker.grey,
+                            fontSize: 12),
+                      );
+                    },
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),

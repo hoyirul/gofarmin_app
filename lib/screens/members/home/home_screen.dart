@@ -224,7 +224,10 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                       itemCount: goatController.goatByMemberList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                              crossAxisCount: 2,
+                              childAspectRatio: (4 / 5),
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 20),
                       itemBuilder: (context, index) {
                         final row = goatController.goatByMemberList[index];
                         return GoatListComponent(

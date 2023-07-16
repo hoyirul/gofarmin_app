@@ -84,7 +84,7 @@ class _ChangeAgricultureGovProfileScreenState
                   colors: ColorPicker.primary,
                   button: TextButton(
                       onPressed: () {
-                        profileController.updateProfile('farm');
+                        profileController.updateProfile('agriculture');
                       },
                       child: const Text(
                         'Update',

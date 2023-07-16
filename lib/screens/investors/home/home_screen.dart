@@ -223,7 +223,10 @@ class _HomeInvestorScreenState extends State<HomeInvestorScreen> {
                       itemCount: memberController.memberList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                              crossAxisCount: 2,
+                              childAspectRatio: (4 / 5),
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 20),
                       itemBuilder: (context, index) {
                         final row = memberController.memberList[index];
                         return InkWell(

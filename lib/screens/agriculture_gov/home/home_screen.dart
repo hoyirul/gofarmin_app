@@ -1,4 +1,5 @@
 // setelah dashboard bisa langsung ada fitur (monitoring) jadi ketika klik member akan lari ke monitoring
+import 'package:gofarmin_app/controllers/agriculture_gov/member_controller.dart';
 import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/accounts/account_screen.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/monitorings/detail_farm_screen.dart';
+import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class HomeAgricultureGovScreen extends StatefulWidget {
   const HomeAgricultureGovScreen({super.key});
@@ -23,6 +25,7 @@ class HomeAgricultureGovScreen extends StatefulWidget {
 class _HomeAgricultureGovScreenState extends State<HomeAgricultureGovScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
+  MemberController memberController = Get.put(MemberController());
 
   @override
   Widget build(BuildContext context) {
@@ -150,37 +153,43 @@ class _HomeAgricultureGovScreenState extends State<HomeAgricultureGovScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                GridView.count(
-                  padding: const EdgeInsets.all(0),
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: (4 / 5),
-                  shrinkWrap: true,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          Get.to(const DetailFarmAgricultureGovScreen(),
-                              transition: Transition.circularReveal);
-                        },
-                        child: const CheckingListComponent()),
-                    InkWell(
-                        onTap: () {
-                          // test
-                        },
-                        child: const CheckingListComponent()),
-                    InkWell(
-                        onTap: () {
-                          // test
-                        },
-                        child: const CheckingListComponent()),
-                    InkWell(
-                        onTap: () {
-                          // test
-                        },
-                        child: const CheckingListComponent()),
-                  ],
-                )
+                Obx(() {
+                  if (memberController.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: memberController.memberList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: (4 / 5),
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 20),
+                      itemBuilder: (context, index) {
+                        final row = memberController.memberList[index];
+                        return InkWell(
+                            onTap: () {
+                              Get.off(DetailFarmAgricultureGovScreen(
+                                id: row.id,
+                              ));
+                            },
+                            child: CheckingListComponent(
+                              name: row.name,
+                              address: row.address,
+                              img: (row.ktp == null)
+                                  ? '${HttpHelper().url}/images/members/default-member.jpg'
+                                  : row.ktp,
+                              status: row.memberStatus,
+                            ));
+                      },
+                    );
+                  }
+                }),
               ],
             ),
           )

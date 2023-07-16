@@ -86,7 +86,7 @@ class ProfileController extends GetxController {
     final prefs = await _prefs;
     final id = prefs.getInt('id');
 
-    final url = Uri.parse(HttpHelper().getUri('/settings/profile/$id'));
+    final url = Uri.parse(HttpHelper().getUri('/settings/profile/$id/$role'));
     Map body = {'name': nameController.text, 'address': addressController.text};
 
     try {
@@ -98,7 +98,6 @@ class ProfileController extends GetxController {
         final json = jsonDecode(response.body)['data'];
         prefs.setString('name', json['name']);
         prefs.setString('address', json['address']);
-
         switch (role) {
           case 'investor':
             Get.off(const AccountInvestorScreen());

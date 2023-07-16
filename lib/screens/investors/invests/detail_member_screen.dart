@@ -1,7 +1,5 @@
-import 'package:gofarmin_app/controllers/auth_controller.dart';
 import 'package:gofarmin_app/controllers/investors/goat_controller.dart';
 import 'package:gofarmin_app/controllers/investors/member_controller.dart';
-import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/goat_list_component.dart';
@@ -23,8 +21,6 @@ class DetailMemberInvestorScreen extends StatefulWidget {
 
 class _DetailMemberInvestorScreenState
     extends State<DetailMemberInvestorScreen> {
-  AuthController authController = Get.put(AuthController());
-  ProfileController profileController = Get.put(ProfileController());
   MemberController memberController = Get.put(MemberController());
   GoatController goatController = Get.put(GoatController());
 
@@ -186,7 +182,10 @@ class _DetailMemberInvestorScreenState
                       itemCount: goatController.goatByMemberList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                              crossAxisCount: 2,
+                              childAspectRatio: (4 / 5),
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 20),
                       itemBuilder: (context, index) {
                         final row = goatController.goatByMemberList[index];
                         return GoatListComponent(

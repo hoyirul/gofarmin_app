@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
-import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class CheckingListComponent extends StatelessWidget {
-  const CheckingListComponent({super.key});
+  final String name, address, img, status;
+  const CheckingListComponent(
+      {super.key,
+      required this.name,
+      required this.address,
+      required this.img,
+      required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class CheckingListComponent extends StatelessWidget {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             child: Image.network(
-              '${HttpHelper().url}/images/members/member1.jpg',
+              img,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitHeight,
             ),
@@ -33,35 +38,38 @@ class CheckingListComponent extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
             child: Column(
-              children: const [
+              children: [
                 Align(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      'Peternakan Al Sulaiman',
-                      style: TextStyle(
+                      name,
+                      style: const TextStyle(
                           fontFamily: FontPicker.semibold, fontSize: 12),
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Jl. Suparman No. 19, Malang',
-                      style: TextStyle(
+                  child: Text(address,
+                      style: const TextStyle(
                           fontFamily: FontPicker.regular,
                           fontSize: 10,
                           color: ColorPicker.grey)),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text('Pending..',
+                  child: Text(
+                      (status == 'worthy') ? 'Complete...' : 'Pending...',
                       style: TextStyle(
                           fontFamily: FontPicker.medium,
                           fontSize: 11,
-                          color: ColorPicker.danger)),
+                          color: (status == 'worthy')
+                              ? ColorPicker.primary
+                              : ColorPicker.danger)),
                 )
               ],
             ),
