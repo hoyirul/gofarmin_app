@@ -1,4 +1,6 @@
 import 'package:gofarmin_app/controllers/auth_controller.dart';
+import 'package:gofarmin_app/controllers/members/goat_controller.dart';
+import 'package:gofarmin_app/controllers/members/member_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
@@ -9,6 +11,7 @@ import 'package:gofarmin_app/screens/members/goats/add_goat_screen.dart';
 import 'package:gofarmin_app/screens/members/goats/edit_goat_screen.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
+import 'package:intl/intl.dart' as intl;
 
 class GoatListMemberScreen extends StatefulWidget {
   const GoatListMemberScreen({super.key});
@@ -20,9 +23,12 @@ class GoatListMemberScreen extends StatefulWidget {
 class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
+  GoatController goatController = Get.put(GoatController());
+  MemberController memberController = Get.put(MemberController());
 
   @override
   Widget build(BuildContext context) {
+    final members = memberController.getById();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -50,10 +56,23 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(50),
                       ),
-                      child: Image.network(
-                        '${HttpHelper().url}/images/members/member4.jpg',
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.fitWidth,
+                      child: FutureBuilder(
+                        future: members,
+                        builder: (context, snapshot) {
+                          if (snapshot.data?.ktp == null) {
+                            return Image.network(
+                              '${HttpHelper().url}/images/members/default-member.jpg',
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.fitWidth,
+                            );
+                          } else {
+                            return Image.network(
+                              fit: BoxFit.fitWidth,
+                              '${HttpHelper().url}/storage/${snapshot.data?.ktp}',
+                              width: MediaQuery.of(context).size.width,
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -87,88 +106,96 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Peternakan Al Hidayah',
-                          style: TextStyle(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder(
+                        future: profileController.getName(),
+                        builder: (context, snapshot) => Text(
+                          '${snapshot.data}',
+                          style: const TextStyle(
                               fontFamily: FontPicker.bold,
                               color: ColorPicker.dark,
                               fontSize: 22),
-                        )),
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       height: 8,
                     ),
-                    const Align(
+                    Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Jl. Raya Tumbang, Malang, Jawa Timur',
-                          style: TextStyle(
-                              fontFamily: FontPicker.regular,
-                              color: ColorPicker.primary,
-                              fontSize: 12),
+                        child: FutureBuilder(
+                          future: profileController.getAddress(),
+                          builder: (context, snapshot) => Text(
+                            '${snapshot.data}',
+                            style: const TextStyle(
+                                fontFamily: FontPicker.regular,
+                                color: ColorPicker.primary,
+                                fontSize: 12),
+                          ),
                         )),
                     const SizedBox(
                       height: 5,
                     ),
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Peternakan ini telah terverifikasi oleh GoFarmin dan sudah bisa berinvestasi di peternakan ini. Selamat berinvestasi nyata.',
-                          style: TextStyle(
-                              fontFamily: FontPicker.regular,
-                              color: ColorPicker.grey,
-                              fontSize: 12),
-                        )),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder(
+                        future: members,
+                        builder: (context, snapshot) {
+                          return Text(
+                            '${snapshot.data?.description}',
+                            style: const TextStyle(
+                                fontFamily: FontPicker.regular,
+                                color: ColorPicker.grey,
+                                fontSize: 12),
+                          );
+                        },
+                      ),
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-                    GridView.count(
-                      padding: const EdgeInsets.all(0),
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 15,
-                      crossAxisCount: 2,
-                      childAspectRatio: (4 / 6),
-                      shrinkWrap: true,
-                      children: [
-                        GoatListComponent(
-                          img: 'member1',
-                          price: '1,299K',
-                          route: TextButton(
-                              onPressed: () {
-                                Get.to(const EditGoatMemberScreen(),
-                                    transition: Transition.circularReveal);
-                              },
-                              child: const Text(
-                                'Edit Data',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.primary),
-                              )),
-                        ),
-                        GoatListComponent(
-                          img: 'member1',
-                          price: '1,299K',
-                          route: TextButton(
-                              onPressed: () {
-                                // Get.to(const DetailGoatInvestorScreen(),
-                                //     transition: Transition.native);
-                                print('Test');
-                              },
-                              child: const Text(
-                                'Edit Data',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.primary),
-                              )),
-                        ),
-                      ],
-                    )
+                    Obx(() {
+                      if (goatController.isLoading.value) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return GridView.builder(
+                          padding: const EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: goatController.goatByMemberList.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                          itemBuilder: (context, index) {
+                            final row = goatController.goatByMemberList[index];
+                            return GoatListComponent(
+                              name: row.goatName,
+                              img: row.image,
+                              price:
+                                  'Rp ${intl.NumberFormat.decimalPattern().format(row.price)}',
+                              route: TextButton(
+                                  onPressed: () {
+                                    Get.to(const EditGoatMemberScreen(),
+                                        transition: Transition.native);
+                                  },
+                                  child: const Text(
+                                    'Edit Data',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: FontPicker.semibold,
+                                        color: ColorPicker.primary),
+                                  )),
+                            );
+                          },
+                        );
+                      }
+                    }),
                   ],
                 ),
               )

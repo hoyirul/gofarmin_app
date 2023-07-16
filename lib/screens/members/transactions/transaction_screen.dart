@@ -1,11 +1,12 @@
-import 'package:gofarmin_app/controllers/auth_controller.dart';
-import 'package:gofarmin_app/controllers/profile_controller.dart';
+import 'package:gofarmin_app/controllers/members/portofolio_controller.dart';
+import 'package:gofarmin_app/controllers/members/transaction_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
+import 'package:intl/intl.dart' as intl;
 
 class TransactionMemberScreen extends StatefulWidget {
   const TransactionMemberScreen({super.key});
@@ -16,11 +17,13 @@ class TransactionMemberScreen extends StatefulWidget {
 }
 
 class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
-  AuthController authController = Get.put(AuthController());
-  ProfileController profileController = Get.put(ProfileController());
+  PortofolioController portofolioController = Get.put(PortofolioController());
+  TransactionController transactionController =
+      Get.put(TransactionController());
 
   @override
   Widget build(BuildContext context) {
+    final portofolios = portofolioController.showPortofolio();
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -63,12 +66,11 @@ class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
                       height: 2,
                     ),
                     FutureBuilder(
-                      future: profileController.getName(),
+                      future: portofolios,
                       builder: (context, snapshot) {
-                        return const Text(
-                          // 'Hi, ${snapshot.data}',
-                          '4,299,000',
-                          style: TextStyle(
+                        return Text(
+                          'Rp ${(snapshot.data == null) ? 0 : snapshot.data}',
+                          style: const TextStyle(
                               fontFamily: FontPicker.bold,
                               fontSize: 30,
                               color: ColorPicker.white),
@@ -83,20 +85,26 @@ class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
                 top: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Text(
-                      '1,299K / goat',
-                      style: TextStyle(
-                          fontFamily: FontPicker.regular,
-                          fontSize: 14,
-                          color: ColorPicker.white),
+                  children: [
+                    FutureBuilder(
+                      future: portofolioController.getAvgGoat(),
+                      builder: (context, snapshot) => Text(
+                        '${snapshot.data ?? 0} / goat',
+                        style: const TextStyle(
+                            fontFamily: FontPicker.regular,
+                            fontSize: 14,
+                            color: ColorPicker.white),
+                      ),
                     ),
-                    Text(
-                      '4 Goats',
-                      style: TextStyle(
-                          fontFamily: FontPicker.regular,
-                          fontSize: 14,
-                          color: ColorPicker.white),
+                    FutureBuilder(
+                      future: portofolioController.getCountGoat(),
+                      builder: (context, snapshot) => Text(
+                        '${snapshot.data} Goats',
+                        style: const TextStyle(
+                            fontFamily: FontPicker.regular,
+                            fontSize: 14,
+                            color: ColorPicker.white),
+                      ),
                     ),
                   ],
                 ),
@@ -143,120 +151,93 @@ class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorPicker.white,
-                        boxShadow: const [
-                          BoxShadow(
-                              color: ColorPicker.greyLight,
-                              offset: Offset(0, 1),
-                              blurRadius: 1)
-                        ]),
-                    child: InkWell(
-                      onTap: () async {},
-                      child: ListTile(
-                          contentPadding: const EdgeInsets.all(5),
-                          title: const Text(
-                            'Kambing Kacang',
-                            style: TextStyle(fontFamily: FontPicker.semibold),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                'Buy Order - Pending',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.regular,
-                                    fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '11 April 2023',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.regular,
-                                    fontSize: 12,
-                                    color: ColorPicker.orange),
-                              ),
-                            ],
-                          ),
-                          trailing: Wrap(
-                            children: const [
-                              Text(
-                                '1,299K',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.primary,
-                                    fontSize: 22),
-                              ),
-                            ],
-                          )),
-                    )),
-                Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorPicker.white,
-                        boxShadow: const [
-                          BoxShadow(
-                              color: ColorPicker.greyLight,
-                              offset: Offset(0, 1),
-                              blurRadius: 1)
-                        ]),
-                    child: InkWell(
-                      onTap: () async {},
-                      child: ListTile(
-                          contentPadding: const EdgeInsets.all(5),
-                          title: const Text(
-                            'Kambing Etawa',
-                            style: TextStyle(fontFamily: FontPicker.semibold),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                'Sell Order - Success',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.regular,
-                                    fontSize: 12),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '01 April 2023',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.regular,
-                                    fontSize: 12,
-                                    color: ColorPicker.orange),
-                              ),
-                            ],
-                          ),
-                          trailing: Wrap(
-                            children: const [
-                              Text(
-                                '1,529K',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.danger,
-                                    fontSize: 22),
-                              ),
-                            ],
-                          )),
-                    ))
+                Obx(() {
+                  if (transactionController.isLoading.value) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: transactionController.transactionList.length,
+                      itemBuilder: (context, index) {
+                        final row =
+                            transactionController.transactionList[index];
+                        return Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorPicker.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: ColorPicker.greyLight,
+                                      offset: Offset(0, 1),
+                                      blurRadius: 1)
+                                ]),
+                            child: InkWell(
+                              onTap: () async {},
+                              child: ListTile(
+                                  contentPadding: const EdgeInsets.all(5),
+                                  title: Text(
+                                    row.goatName,
+                                    style: const TextStyle(
+                                        fontFamily: FontPicker.semibold),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        '${row.qty} Goats - ${row.price} / goats',
+                                        style: const TextStyle(
+                                            fontFamily: FontPicker.regular,
+                                            fontSize: 12),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        '${row.type} - ${row.status}',
+                                        style: const TextStyle(
+                                            fontFamily: FontPicker.regular,
+                                            fontSize: 12),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        intl.DateFormat('dd MMMM yyyy HH:mm:ss')
+                                            .format(row.createdAt),
+                                        style: const TextStyle(
+                                            fontFamily: FontPicker.regular,
+                                            fontSize: 12,
+                                            color: ColorPicker.orange),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Wrap(
+                                    children: [
+                                      Text(
+                                        '${intl.NumberFormat.decimalPattern().format(row.total / 1000)}K',
+                                        style: TextStyle(
+                                            fontFamily: FontPicker.semibold,
+                                            color: (row.type == 'buy')
+                                                ? ColorPicker.primary
+                                                : ColorPicker.danger,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  )),
+                            ));
+                      },
+                    );
+                  }
+                }),
               ],
             ),
           )

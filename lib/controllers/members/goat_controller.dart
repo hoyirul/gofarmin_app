@@ -40,7 +40,7 @@ class GoatController extends GetxController {
   Future<List<GoatByMemberModel>?> showGoatByMember() async {
     final prefs = await _prefs;
     try {
-      var url = Uri.parse(HttpHelper().getUri('/members/$memberId/goats'));
+      var url = Uri.parse(HttpHelper().getUri('/goats'));
 
       final response = await http.get(url,
           headers: HeaderHelper().headersLogged(

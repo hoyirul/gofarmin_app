@@ -11,14 +11,16 @@ import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 
-class PaymentInvestorScreen extends StatefulWidget {
-  const PaymentInvestorScreen({super.key});
+class DetailTransactionInvestorScreen extends StatefulWidget {
+  const DetailTransactionInvestorScreen({super.key});
 
   @override
-  State<PaymentInvestorScreen> createState() => _PaymentInvestorScreenState();
+  State<DetailTransactionInvestorScreen> createState() =>
+      _DetailTransactionInvestorScreenState();
 }
 
-class _PaymentInvestorScreenState extends State<PaymentInvestorScreen> {
+class _DetailTransactionInvestorScreenState
+    extends State<DetailTransactionInvestorScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
   var fileName = '';

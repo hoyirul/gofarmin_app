@@ -1,4 +1,5 @@
 import 'package:gofarmin_app/controllers/auth_controller.dart';
+import 'package:gofarmin_app/controllers/members/goat_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
@@ -10,8 +11,10 @@ import 'package:gofarmin_app/screens/components/home_feature_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/members/accounts/account_screen.dart';
+import 'package:gofarmin_app/screens/members/goats/edit_goat_screen.dart';
 import 'package:gofarmin_app/screens/members/goats/goat_list_screen.dart';
 import 'package:gofarmin_app/screens/members/transactions/transaction_screen.dart';
+import 'package:intl/intl.dart' as intl;
 
 class HomeMemberScreen extends StatefulWidget {
   const HomeMemberScreen({super.key});
@@ -23,6 +26,7 @@ class HomeMemberScreen extends StatefulWidget {
 class _HomeMemberScreenState extends State<HomeMemberScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
+  GoatController goatController = Get.put(GoatController());
 
   @override
   Widget build(BuildContext context) {
@@ -207,84 +211,44 @@ class _HomeMemberScreenState extends State<HomeMemberScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                GridView.count(
-                  padding: const EdgeInsets.all(0),
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: (4 / 6),
-                  shrinkWrap: true,
-                  children: [
-                    GoatListComponent(
-                      img: 'member1',
-                      price: '1,299K',
-                      route: TextButton(
-                          onPressed: () {
-                            // Get.to(const DetailGoatInvestorScreen(),
-                            //     transition: Transition.native);
-                            print('Test');
-                          },
-                          child: const Text(
-                            'Edit Data',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: FontPicker.semibold,
-                                color: ColorPicker.primary),
-                          )),
-                    ),
-                    GoatListComponent(
-                      img: 'member1',
-                      price: '1,299K',
-                      route: TextButton(
-                          onPressed: () {
-                            // Get.to(const DetailGoatInvestorScreen(),
-                            //     transition: Transition.native);
-                            print('Test');
-                          },
-                          child: const Text(
-                            'Edit Data',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: FontPicker.semibold,
-                                color: ColorPicker.primary),
-                          )),
-                    ),
-                    GoatListComponent(
-                      img: 'member1',
-                      price: '1,299K',
-                      route: TextButton(
-                          onPressed: () {
-                            // Get.to(const DetailGoatInvestorScreen(),
-                            //     transition: Transition.native);
-                            print('Test');
-                          },
-                          child: const Text(
-                            'Edit Data',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: FontPicker.semibold,
-                                color: ColorPicker.primary),
-                          )),
-                    ),
-                    GoatListComponent(
-                      img: 'member1',
-                      price: '1,299K',
-                      route: TextButton(
-                          onPressed: () {
-                            // Get.to(const DetailGoatInvestorScreen(),
-                            //     transition: Transition.native);
-                            print('Test');
-                          },
-                          child: const Text(
-                            'Edit Data',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: FontPicker.semibold,
-                                color: ColorPicker.primary),
-                          )),
-                    ),
-                  ],
-                )
+                Obx(() {
+                  if (goatController.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: goatController.goatByMemberList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, childAspectRatio: (4 / 5)),
+                      itemBuilder: (context, index) {
+                        final row = goatController.goatByMemberList[index];
+                        return GoatListComponent(
+                          name: row.goatName,
+                          img: row.image,
+                          price:
+                              'Rp ${intl.NumberFormat.decimalPattern().format(row.price)}',
+                          route: TextButton(
+                              onPressed: () {
+                                Get.to(const EditGoatMemberScreen(),
+                                    transition: Transition.native);
+                              },
+                              child: const Text(
+                                'Edit Data',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: FontPicker.semibold,
+                                    color: ColorPicker.primary),
+                              )),
+                        );
+                      },
+                    );
+                  }
+                }),
               ],
             ),
           )

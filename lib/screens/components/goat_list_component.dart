@@ -5,11 +5,14 @@ import 'package:gofarmin_app/screens/components/button_component.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class GoatListComponent extends StatelessWidget {
-  final String img;
-  final String price;
+  final String name, img, price;
   final TextButton route;
   const GoatListComponent(
-      {super.key, required this.price, required this.route, required this.img});
+      {super.key,
+      required this.name,
+      required this.price,
+      required this.route,
+      required this.img});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +42,11 @@ class GoatListComponent extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
             child: Column(
               children: [
-                const Align(
+                Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Kambing Kacang',
-                      style: TextStyle(
+                      name,
+                      style: const TextStyle(
                           fontFamily: FontPicker.semibold, fontSize: 14),
                     )),
                 const SizedBox(

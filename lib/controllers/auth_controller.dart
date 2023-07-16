@@ -20,7 +20,7 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
-      TextEditingController(text: 'investor@gmail.com');
+      TextEditingController(text: 'peternakan@gmail.com');
   TextEditingController passwordController =
       TextEditingController(text: 'password');
   TextEditingController passwordConfimationController = TextEditingController();

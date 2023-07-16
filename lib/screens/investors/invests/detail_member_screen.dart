@@ -7,7 +7,6 @@ import 'package:gofarmin_app/pickers/font_pickers.dart';
 import 'package:gofarmin_app/screens/components/goat_list_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/tab_button_component.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_goat_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
@@ -191,6 +190,7 @@ class _DetailMemberInvestorScreenState
                       itemBuilder: (context, index) {
                         final row = goatController.goatByMemberList[index];
                         return GoatListComponent(
+                          name: row.goatName,
                           img: row.image,
                           price:
                               'Rp ${intl.NumberFormat.decimalPattern().format(row.price)}',
