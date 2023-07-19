@@ -12,6 +12,7 @@ String transactionByMemberModelToJson(List<TransactionByMemberModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class TransactionByMemberModel {
+  String invoice;
   String name;
   String goatName;
   int qty;
@@ -22,6 +23,7 @@ class TransactionByMemberModel {
   DateTime createdAt;
 
   TransactionByMemberModel({
+    required this.invoice,
     required this.name,
     required this.goatName,
     required this.qty,
@@ -34,6 +36,7 @@ class TransactionByMemberModel {
 
   factory TransactionByMemberModel.fromJson(Map<String, dynamic> json) =>
       TransactionByMemberModel(
+        invoice: json["invoice"],
         name: json["name"],
         goatName: json["goat_name"],
         qty: json["qty"],
@@ -45,6 +48,7 @@ class TransactionByMemberModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "invoice": invoice,
         "name": name,
         "goat_name": goatName,
         "qty": qty,

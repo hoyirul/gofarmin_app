@@ -184,7 +184,14 @@ class _GoatListMemberScreenState extends State<GoatListMemberScreen> {
                                   'Rp ${intl.NumberFormat.decimalPattern().format(row.price)}',
                               route: TextButton(
                                   onPressed: () {
-                                    Get.to(const EditGoatMemberScreen(),
+                                    Get.to(
+                                        EditGoatMemberScreen(
+                                          id: row.id,
+                                          name: row.goatName,
+                                          age: row.age,
+                                          price: row.price,
+                                          information: row.information,
+                                        ),
                                         transition: Transition.native);
                                   },
                                   child: const Text(

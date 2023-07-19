@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:gofarmin_app/models/transaction_by_invoice_model.dart';
 import 'package:gofarmin_app/models/transaction_by_member_model.dart';
 import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
@@ -53,25 +54,26 @@ class TransactionController extends GetxController {
     return null;
   }
 
-  // Future<ShowMemberModel?> getById(id) async {
-  //   final prefs = await _prefs;
-  //   try {
-  //     var url = Uri.parse(HttpHelper().getUri('/members/$id'));
+  Future<TransactionByInvoiceModel?> showByInvoice(invoice) async {
+    final prefs = await _prefs;
+    try {
+      var url =
+          Uri.parse(HttpHelper().getUri('/transactions/$invoice/invoice'));
 
-  //     final response = await http.get(url,
-  //         headers: HeaderHelper().headersLogged(
-  //             prefs.getString('token_type'), prefs.getString('access_token')));
+      final response = await http.get(url,
+          headers: HeaderHelper().headersLogged(
+              prefs.getString('token_type'), prefs.getString('access_token')));
 
-  //     if (response.statusCode == 200) {
-  //       var decodeJson = json.decode(response.body)['data'];
-  //       var jsonString = json.encode(decodeJson);
-  //       return showMemberModelFromJson(jsonString);
-  //     }
-  //   } catch (error) {
-  //     Get.back();
+      if (response.statusCode == 200) {
+        var decodeJson = json.decode(response.body)['data'];
+        var jsonString = json.encode(decodeJson);
+        return transactionByInvoiceModelFromJson(jsonString);
+      }
+    } catch (error) {
+      Get.back();
 
-  //     AlertHelper().showAlert(error.toString());
-  //   }
-  //   return null;
-  // }
+      AlertHelper().showAlert(error.toString());
+    }
+    return null;
+  }
 }

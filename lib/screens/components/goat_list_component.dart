@@ -31,11 +31,17 @@ class GoatListComponent extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            child: Image.network(
-              '${HttpHelper().url}/storage/$img',
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            child: SizedBox(
+              height: 100, // Tinggi gambar yang diinginkan
               width: MediaQuery.of(context).size.width,
-              fit: BoxFit.fitHeight,
+              child: Image.network(
+                '${HttpHelper().url}/storage/$img',
+                fit: BoxFit
+                    .cover, // Atur sesuai kebutuhan Anda, bisa juga BoxFit.fill jika ingin memenuhi kotak secara penuh
+              ),
             ),
           ),
           Container(
@@ -57,7 +63,7 @@ class GoatListComponent extends StatelessWidget {
                   child: Text(price,
                       style: const TextStyle(
                           fontFamily: FontPicker.bold,
-                          fontSize: 22,
+                          fontSize: 20,
                           color: ColorPicker.dark)),
                 ),
                 const SizedBox(

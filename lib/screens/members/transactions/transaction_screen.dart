@@ -6,6 +6,7 @@ import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/members/home/home_screen.dart';
+import 'package:gofarmin_app/screens/members/transactions/detail_transaction_screen.dart';
 import 'package:intl/intl.dart' as intl;
 
 class TransactionMemberScreen extends StatefulWidget {
@@ -177,7 +178,12 @@ class _TransactionMemberScreenState extends State<TransactionMemberScreen> {
                                       blurRadius: 1)
                                 ]),
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () {
+                                Get.to(
+                                    DetailTransactionMemberScreen(
+                                        invoice: row.invoice),
+                                    transition: Transition.circularReveal);
+                              },
                               child: ListTile(
                                   contentPadding: const EdgeInsets.all(5),
                                   title: Text(
