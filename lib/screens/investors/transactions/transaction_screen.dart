@@ -6,6 +6,7 @@ import 'package:gofarmin_app/screens/components/circle_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/investors/home/home_screen.dart';
+import 'package:gofarmin_app/screens/investors/transactions/detail_transaction_screen.dart';
 import 'package:intl/intl.dart' as intl;
 
 class TransactionInvestorScreen extends StatefulWidget {
@@ -89,7 +90,7 @@ class _TransactionInvestorScreenState extends State<TransactionInvestorScreen> {
                     FutureBuilder(
                       future: portofolioController.getAvgGoat(),
                       builder: (context, snapshot) => Text(
-                        '${snapshot.data == null ? 0 : intl.NumberFormat.decimalPattern().format(int.parse(snapshot.data.toString()))} / goat',
+                        '${snapshot.data ?? 0} / goat',
                         style: const TextStyle(
                             fontFamily: FontPicker.regular,
                             fontSize: 14,
@@ -177,7 +178,12 @@ class _TransactionInvestorScreenState extends State<TransactionInvestorScreen> {
                                       blurRadius: 1)
                                 ]),
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () {
+                                Get.to(
+                                    DetailTransactionInvestorScreen(
+                                        invoice: row.invoice),
+                                    transition: Transition.circularReveal);
+                              },
                               child: ListTile(
                                   contentPadding: const EdgeInsets.all(5),
                                   title: Text(

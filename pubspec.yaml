@@ -41,8 +41,10 @@ dependencies:
   flutter_svg: ^1.1.6
   flutter_launcher_icons: ^0.11.0
   intl: any
-  image_picker: ^1.0.0
+  image_picker: any
   file_picker: ^5.3.1
+  permission_handler: any
+  random_string: any
 
 dev_dependencies:
   flutter_test:

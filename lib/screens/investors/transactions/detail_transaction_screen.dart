@@ -1,5 +1,6 @@
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 import 'package:gofarmin_app/controllers/auth_controller.dart';
+import 'package:gofarmin_app/controllers/investors/transaction_controller.dart';
 import 'package:gofarmin_app/controllers/profile_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
@@ -9,10 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
+import 'package:gofarmin_app/screens/investors/transactions/transaction_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart' as intl;
 
 class DetailTransactionInvestorScreen extends StatefulWidget {
-  const DetailTransactionInvestorScreen({super.key});
+  final String invoice;
+  const DetailTransactionInvestorScreen({super.key, required this.invoice});
 
   @override
   State<DetailTransactionInvestorScreen> createState() =>
@@ -23,23 +28,12 @@ class _DetailTransactionInvestorScreenState
     extends State<DetailTransactionInvestorScreen> {
   AuthController authController = Get.put(AuthController());
   ProfileController profileController = Get.put(ProfileController());
-  var fileName = '';
-  Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      PlatformFile file = result.files.first;
-
-      // Lakukan sesuatu dengan file yang dipilih
-      fileName = file.name;
-      // print(file.name);
-      // print(file.path);
-    } else {
-      // Pengguna tidak memilih file
-    }
-  }
+  TransactionController transactionController =
+      Get.put(TransactionController());
 
   @override
   Widget build(BuildContext context) {
+    final transactions = transactionController.showByInvoice(widget.invoice);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -49,7 +43,7 @@ class _DetailTransactionInvestorScreenState
             children: [
               Container(
                 padding: const EdgeInsets.all(0),
-                height: 250,
+                height: 225,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   borderRadius:
@@ -59,10 +53,23 @@ class _DetailTransactionInvestorScreenState
                   borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(50),
                   ),
-                  child: Image.network(
-                    '${HttpHelper().url}/images/members/member3.jpg',
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.fitWidth,
+                  child: FutureBuilder(
+                    future: transactions,
+                    builder: (context, snapshot) {
+                      if (snapshot.data?.goat.image == null) {
+                        return Image.network(
+                          '${HttpHelper().url}/images/members/default-member.jpg',
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fitWidth,
+                        );
+                      } else {
+                        return Image.network(
+                          fit: BoxFit.fitWidth,
+                          '${HttpHelper().url}/storage/${snapshot.data?.goat.image}',
+                          width: MediaQuery.of(context).size.width,
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
@@ -71,23 +78,7 @@ class _DetailTransactionInvestorScreenState
                 right: 25,
                 child: InkWell(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ConfirmDialogComponent(
-                          message: 'Are you sure to cancel this transaction?',
-                          confirm: InkWell(
-                              onTap: () => print('oke'),
-                              // onTap: () => Get.to(
-                              //     const DetailMemberInvestorScreen(),
-                              //     transition: Transition.circularReveal),
-                              child: const ButtonAlertComponent(
-                                text: 'Yes',
-                                colors: ColorPicker.primary,
-                              )),
-                        );
-                      },
-                    );
+                    Get.to(const TransactionInvestorScreen());
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -113,66 +104,82 @@ class _DetailTransactionInvestorScreenState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'kambing Kacang',
-                      style: TextStyle(
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FutureBuilder(
+                    future: transactions,
+                    builder: (context, snapshot) => Text(
+                      '${snapshot.data?.goat.goatName}',
+                      style: const TextStyle(
                           fontFamily: FontPicker.bold,
                           color: ColorPicker.dark,
                           fontSize: 22),
-                    )),
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: RichText(
-                            text: const TextSpan(children: [
-                              TextSpan(
-                                  text: '1,299K',
-                                  style: TextStyle(
-                                      fontFamily: FontPicker.bold,
-                                      color: ColorPicker.primary,
-                                      fontSize: 30)),
-                              TextSpan(
-                                  text: ' / item',
-                                  style: TextStyle(
-                                      fontFamily: FontPicker.medium,
-                                      color: ColorPicker.danger,
-                                      fontSize: 16)),
-                            ]),
-                          )),
-                    ),
-                    const Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Age <> 3 months',
-                          style: TextStyle(
-                              color: ColorPicker.grey,
-                              fontFamily: FontPicker.medium,
-                              fontSize: 12),
+                FutureBuilder(
+                  future: transactions,
+                  builder: (context, snapshot) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text:
+                                          'Rp ${(snapshot.data?.price == null) ? 0 : intl.NumberFormat.decimalPattern().format(snapshot.data?.price)}',
+                                      style: const TextStyle(
+                                          fontFamily: FontPicker.bold,
+                                          color: ColorPicker.primary,
+                                          fontSize: 22)),
+                                  const TextSpan(
+                                      text: ' / item',
+                                      style: TextStyle(
+                                          fontFamily: FontPicker.medium,
+                                          color: ColorPicker.danger,
+                                          fontSize: 16)),
+                                ]),
+                              )),
                         ),
-                      ),
-                    ),
-                  ],
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'Age <> ${snapshot.data?.goat.age} months',
+                              style: const TextStyle(
+                                  color: ColorPicker.grey,
+                                  fontFamily: FontPicker.medium,
+                                  fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak',
-                      style: TextStyle(
-                          fontFamily: FontPicker.regular,
-                          color: ColorPicker.grey,
-                          fontSize: 12),
-                    )),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FutureBuilder(
+                      future: transactions,
+                      builder: (context, snapshot) {
+                        return Text(
+                          '${snapshot.data?.goat.information}',
+                          style: const TextStyle(
+                              fontFamily: FontPicker.regular,
+                              color: ColorPicker.grey,
+                              fontSize: 12),
+                        );
+                      }),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -193,14 +200,17 @@ class _DetailTransactionInvestorScreenState
                             offset: Offset(0, 1),
                             blurRadius: 0.3)
                       ]),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      'INV-128293723',
-                      style: TextStyle(
-                          color: ColorPicker.dark,
-                          fontFamily: FontPicker.medium,
-                          fontSize: 16),
+                    child: FutureBuilder(
+                      future: transactions,
+                      builder: (context, snapshot) => Text(
+                        '${snapshot.data?.invoice}',
+                        style: const TextStyle(
+                            color: ColorPicker.dark,
+                            fontFamily: FontPicker.medium,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
@@ -227,14 +237,17 @@ class _DetailTransactionInvestorScreenState
                                   offset: Offset(0, 1),
                                   blurRadius: 0.3)
                             ]),
-                        child: const Align(
+                        child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            '5 Goats',
-                            style: TextStyle(
-                                color: ColorPicker.dark,
-                                fontFamily: FontPicker.medium,
-                                fontSize: 16),
+                          child: FutureBuilder(
+                            future: transactions,
+                            builder: (context, snapshot) => Text(
+                              '${snapshot.data?.qty} Goats',
+                              style: const TextStyle(
+                                  color: ColorPicker.dark,
+                                  fontFamily: FontPicker.medium,
+                                  fontSize: 16),
+                            ),
                           ),
                         ),
                       ),
@@ -256,14 +269,17 @@ class _DetailTransactionInvestorScreenState
                                   offset: Offset(0, 1),
                                   blurRadius: 0.3)
                             ]),
-                        child: const Align(
+                        child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            '1,299,000',
-                            style: TextStyle(
-                                color: ColorPicker.dark,
-                                fontFamily: FontPicker.medium,
-                                fontSize: 16),
+                          child: FutureBuilder(
+                            future: transactions,
+                            builder: (context, snapshot) => Text(
+                              '${snapshot.data?.price}',
+                              style: const TextStyle(
+                                  color: ColorPicker.dark,
+                                  fontFamily: FontPicker.medium,
+                                  fontSize: 16),
+                            ),
                           ),
                         ),
                       ),
@@ -290,192 +306,23 @@ class _DetailTransactionInvestorScreenState
                             offset: Offset(0, 1),
                             blurRadius: 0.3)
                       ]),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      '6,495,000',
-                      style: TextStyle(
-                          color: ColorPicker.dark,
-                          fontFamily: FontPicker.medium,
-                          fontSize: 16),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Proof of Payment',
-                      style: TextStyle(fontFamily: FontPicker.medium),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    color: ColorPicker.white),
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    const Text(
-                                      'Transfer to',
-                                      style: TextStyle(
-                                        fontFamily: FontPicker.medium,
-                                        color: ColorPicker.dark,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16.0),
-                                    DataTable(
-                                      columns: const [
-                                        DataColumn(label: Text('Bank')),
-                                        DataColumn(label: Text('Number')),
-                                      ],
-                                      rows: const [
-                                        DataRow(cells: [
-                                          DataCell(Text('BCA')),
-                                          DataCell(Text('1263748874')),
-                                        ]),
-                                        DataRow(cells: [
-                                          DataCell(Text('BNI')),
-                                          DataCell(Text('9483984774')),
-                                        ]),
-                                        DataRow(cells: [
-                                          DataCell(Text('BRI')),
-                                          DataCell(Text('3748874939')),
-                                        ]),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: const Text('Select Payment',
-                          style: TextStyle(
-                              fontFamily: FontPicker.medium,
-                              color: ColorPicker.primary)),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  padding: const EdgeInsets.only(left: 30, right: 0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: ColorPicker.greyAccent,
-                      boxShadow: const [
-                        BoxShadow(
-                            color: ColorPicker.greyLight,
-                            offset: Offset(0, 1),
-                            blurRadius: 0.3)
-                      ]),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            fileName,
-                            style: const TextStyle(
-                                color: ColorPicker.dark,
-                                fontFamily: FontPicker.regular,
-                                fontSize: 11),
-                          ),
-                        ),
+                    child: FutureBuilder(
+                      future: transactions,
+                      builder: (context, snapshot) => Text(
+                        '${snapshot.data?.total}',
+                        style: const TextStyle(
+                            color: ColorPicker.dark,
+                            fontFamily: FontPicker.medium,
+                            fontSize: 16),
                       ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(right: 30),
-                          width: MediaQuery.of(context).size.width,
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(25),
-                                  bottomRight: Radius.circular(25)),
-                              color: ColorPicker.greyLight,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: ColorPicker.greyLight,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 0.3)
-                              ]),
-                          child: InkWell(
-                            onTap: () => pickFile(),
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                'File',
-                                style: TextStyle(
-                                    fontFamily: FontPicker.semibold,
-                                    color: ColorPicker.dark,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                ButtonComponent(
-                    height: 50,
-                    width: double.infinity,
-                    colors: ColorPicker.primary,
-                    button: TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return ConfirmDialogComponent(
-                                message: 'Are you sure?',
-                                confirm: InkWell(
-                                    onTap: () => print('oke'),
-                                    // onTap: () => Get.to(
-                                    //     const DetailMemberInvestorScreen(),
-                                    //     transition: Transition.circularReveal),
-                                    child: const ButtonAlertComponent(
-                                      text: 'Yes',
-                                      colors: ColorPicker.primary,
-                                    )),
-                              );
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Submit Payment',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: FontPicker.bold,
-                              color: ColorPicker.white),
-                        ))),
               ],
             ),
           )

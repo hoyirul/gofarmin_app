@@ -10,7 +10,6 @@ import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/components/input_component.dart';
 import 'package:gofarmin_app/screens/components/label_component.dart';
 import 'package:gofarmin_app/screens/investors/invests/detail_member_screen.dart';
-import 'package:gofarmin_app/screens/investors/invests/payment_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:intl/intl.dart' as intl;
 

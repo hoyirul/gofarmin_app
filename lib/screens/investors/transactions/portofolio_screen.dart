@@ -89,7 +89,7 @@ class _PortofolioInvestorScreenState extends State<PortofolioInvestorScreen> {
                     FutureBuilder(
                       future: portofolioController.getAvgGoat(),
                       builder: (context, snapshot) => Text(
-                        '${snapshot.data == null ? 0 : intl.NumberFormat.decimalPattern().format(int.parse(snapshot.data.toString()))} / goat',
+                        '${snapshot.data ?? 0} / goat',
                         style: const TextStyle(
                             fontFamily: FontPicker.regular,
                             fontSize: 14,
