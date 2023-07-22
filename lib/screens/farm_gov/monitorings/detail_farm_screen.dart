@@ -5,7 +5,9 @@ import 'package:gofarmin_app/screens/components/button_monitoring_component.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/monitorings/farm_monitoring_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailFarmFarmGovScreen extends StatefulWidget {
   final int id;
@@ -156,20 +158,21 @@ class _DetailFarmFarmGovScreenState extends State<DetailFarmFarmGovScreen> {
                   height: 15,
                 ),
                 Row(
-                  children: const [
+                  children: [
                     Expanded(
                         child: InkWell(
-                      child: ButtonMonitoringComponent(
+                      onTap: () => Get.to(const FarmMonitoringFarmGovScreen()),
+                      child: const ButtonMonitoringComponent(
                         text: 'Monitoring Peternakan',
                         height: 100,
                         bg: ColorPicker.primary,
                         textColor: ColorPicker.white,
                       ),
                     )),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Expanded(
+                    const Expanded(
                         child: InkWell(
                       child: ButtonMonitoringComponent(
                         text: 'Monitoring Tempat Ternak',
