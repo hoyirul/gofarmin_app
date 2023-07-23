@@ -1,13 +1,18 @@
 import 'package:gofarmin_app/controllers/farm_gov/member_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/components/button_alert_component.dart';
 import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/monitorings/eligible_monitoring_screen.dart';
 import 'package:gofarmin_app/screens/farm_gov/monitorings/farm_monitoring_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/monitorings/goat_monitoring_screen.dart';
+import 'package:gofarmin_app/screens/farm_gov/monitorings/pen_monitoring_screen.dart';
+import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DetailFarmFarmGovScreen extends StatefulWidget {
   final int id;
@@ -157,74 +162,147 @@ class _DetailFarmFarmGovScreenState extends State<DetailFarmFarmGovScreen> {
                 const SizedBox(
                   height: 15,
                 ),
+                FutureBuilder(
+                  future: members,
+                  builder: (context, snapshot) => Row(
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          print(snapshot.data?.memberStatus);
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(FarmMonitoringFarmGovScreen(id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Monitoring Peternakan',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(PenMonitoringFarmGovScreen(id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Monitoring Tempat Ternak',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                FutureBuilder(
+                  future: members,
+                  builder: (context, snapshot) => Row(
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(GoatMonitoringFarmGovScreen(id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Monitoring Hewan Ternak',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(
+                                EligibleMonitoringFarmGovScreen(id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Cek Kelayakan Peternakan',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 Row(
                   children: [
-                    Expanded(
-                        child: InkWell(
-                      onTap: () => Get.to(const FarmMonitoringFarmGovScreen()),
-                      child: const ButtonMonitoringComponent(
-                        text: 'Monitoring Peternakan',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    const SizedBox(
-                      width: 10,
+                    FutureBuilder(
+                      future: members,
+                      builder: (context, snapshot) => Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            AlertHelper().showAlert(
+                                'Peternakan telah dicek dan peternakan ini dinyatakan layak pada 03 April 2023');
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConfirmDialogComponent(
+                                  message:
+                                      'Apakah sudah melakukan pengecekan dan apakah peternakan ini layak?',
+                                  confirm: InkWell(
+                                      onTap: () {
+                                        memberController
+                                            .updateMemberById(widget.id);
+                                      },
+                                      child: const ButtonAlertComponent(
+                                        text: 'Yes',
+                                        colors: ColorPicker.primary,
+                                      )),
+                                );
+                              },
+                            );
+                          }
+                        },
+                        child: ButtonMonitoringComponent(
+                          text: (snapshot.data?.memberStatus != 'worthy')
+                              ? 'Dalam pengecekan'
+                              : 'Telah dicek',
+                          height: 60,
+                          bg: (snapshot.data?.memberStatus != 'worthy')
+                              ? ColorPicker.orange
+                              : ColorPicker.greyLight,
+                          textColor: (snapshot.data?.memberStatus != 'worthy')
+                              ? ColorPicker.white
+                              : ColorPicker.dark,
+                        ),
+                      )),
                     ),
-                    const Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Monitoring Tempat Ternak',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Monitoring Hewan Ternak',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Cek Kelayakan Peternakan',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Check Status',
-                        height: 60,
-                        bg: ColorPicker.greyLight,
-                        textColor: ColorPicker.dark,
-                      ),
-                    )),
                   ],
                 ),
               ],

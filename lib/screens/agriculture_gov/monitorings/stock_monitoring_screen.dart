@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:gofarmin_app/controllers/farm_gov/member_controller.dart';
+import 'package:gofarmin_app/controllers/agriculture_gov/member_controller.dart';
 import 'package:get/get.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/monitorings/detail_farm_screen.dart';
 import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
-import 'package:gofarmin_app/screens/farm_gov/monitorings/detail_farm_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 
-class FarmMonitoringFarmGovScreen extends StatefulWidget {
+class StockMonitoringAgricultureGovScreen extends StatefulWidget {
   final int id;
-  const FarmMonitoringFarmGovScreen({super.key, required this.id});
+  const StockMonitoringAgricultureGovScreen({super.key, required this.id});
 
   @override
-  State<FarmMonitoringFarmGovScreen> createState() =>
-      _FarmMonitoringFarmGovScreenState();
+  State<StockMonitoringAgricultureGovScreen> createState() =>
+      _StockMonitoringAgricultureGovScreenState();
 }
 
-class _FarmMonitoringFarmGovScreenState
-    extends State<FarmMonitoringFarmGovScreen> {
+class _StockMonitoringAgricultureGovScreenState
+    extends State<StockMonitoringAgricultureGovScreen> {
   MemberController memberController = Get.put(MemberController());
-  int persentase = 86;
+  List<TimelineItem> items = [
+    TimelineItem(title: "Sudah Memberi Pakan", isCompleted: true),
+    TimelineItem(title: "Cek Lingkungan Pakan", isCompleted: true),
+    TimelineItem(title: "Waktunya Imunisasi Ternak", isCompleted: false),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,8 @@ class _FarmMonitoringFarmGovScreenState
                 top: 50,
                 right: 25,
                 child: InkWell(
-                  onTap: () => Get.to(DetailFarmFarmGovScreen(id: widget.id),
+                  onTap: () => Get.to(
+                      DetailFarmAgricultureGovScreen(id: widget.id),
                       transition: Transition.leftToRight),
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -148,12 +153,27 @@ class _FarmMonitoringFarmGovScreenState
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Monitoring Peternakan',
+                      'Monitoring Stok Pakan',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           color: ColorPicker.dark,
                           fontSize: 18),
                     )),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return TimelineTile(
+                      title: items[index].title,
+                      isChecked: items[index].isCompleted,
+                      onChecked: (value) {
+                        setState(() {
+                          items[index].isCompleted = value;
+                        });
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -162,7 +182,7 @@ class _FarmMonitoringFarmGovScreenState
                     Expanded(
                         child: InkWell(
                       child: ButtonMonitoringComponent(
-                        text: 'Hewan Sakit \n 10 Kambing',
+                        text: 'Pakan Utama \n 80 Ikat',
                         height: 100,
                         bg: ColorPicker.grey,
                         textColor: ColorPicker.white,
@@ -174,35 +194,7 @@ class _FarmMonitoringFarmGovScreenState
                     Expanded(
                         child: InkWell(
                       child: ButtonMonitoringComponent(
-                        text: 'Hewan Sehat \n 60 Kambing',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Jumlah Hewan \n 70 Kambing',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Persentase Hewan Sehat 86%',
+                        text: 'Nutrisi Pakan \n 86%',
                         height: 100,
                         bg: ColorPicker.grey,
                         textColor: ColorPicker.white,
@@ -216,5 +208,62 @@ class _FarmMonitoringFarmGovScreenState
         ],
       ),
     ));
+  }
+}
+
+class TimelineItem {
+  String title;
+  bool isCompleted;
+
+  TimelineItem({required this.title, this.isCompleted = false});
+}
+
+class TimelineTile extends StatelessWidget {
+  final String title;
+  final bool isChecked;
+  final ValueChanged<bool>? onChecked;
+
+  const TimelineTile(
+      {super.key,
+      required this.title,
+      required this.isChecked,
+      this.onChecked});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 2,
+      shadowColor: ColorPicker.greyAccent,
+      child: ListTile(
+        trailing: Container(
+          width: 25,
+          height: 25,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isChecked ? Colors.green : Colors.orange,
+          ),
+          child: isChecked
+              ? const Icon(
+                  Icons.check,
+                  size: 16,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.pending_actions_rounded,
+                  size: 16,
+                  color: Colors.white,
+                ),
+        ),
+        title: Text(title),
+        onTap: () {
+          if (onChecked != null) {
+            onChecked!(!isChecked);
+          }
+        },
+      ),
+    );
   }
 }

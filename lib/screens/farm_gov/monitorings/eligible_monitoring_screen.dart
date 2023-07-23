@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:gofarmin_app/controllers/farm_gov/member_controller.dart';
 import 'package:get/get.dart';
-import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
 import 'package:gofarmin_app/screens/farm_gov/monitorings/detail_farm_screen.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
 
-class FarmMonitoringFarmGovScreen extends StatefulWidget {
+class EligibleMonitoringFarmGovScreen extends StatefulWidget {
   final int id;
-  const FarmMonitoringFarmGovScreen({super.key, required this.id});
+  const EligibleMonitoringFarmGovScreen({super.key, required this.id});
 
   @override
-  State<FarmMonitoringFarmGovScreen> createState() =>
-      _FarmMonitoringFarmGovScreenState();
+  State<EligibleMonitoringFarmGovScreen> createState() =>
+      _EligibleMonitoringFarmGovScreenState();
 }
 
-class _FarmMonitoringFarmGovScreenState
-    extends State<FarmMonitoringFarmGovScreen> {
+class _EligibleMonitoringFarmGovScreenState
+    extends State<EligibleMonitoringFarmGovScreen> {
   MemberController memberController = Get.put(MemberController());
-  int persentase = 86;
+  List<TimelineItem> items = [
+    TimelineItem(title: "Keuangan Peternakan", isCompleted: true),
+    TimelineItem(title: "Produksi dan Produktivitas", isCompleted: true),
+    TimelineItem(title: "Kesehatan Hewan Ternak", isCompleted: true),
+    TimelineItem(title: "Kualitas dan Kuantitas Pakan", isCompleted: true),
+    TimelineItem(title: "Kualitas Produk", isCompleted: true),
+    TimelineItem(title: "Kesejahteraan Hewan", isCompleted: true),
+    TimelineItem(title: "Kebersihan dan Sanitasi", isCompleted: true),
+    TimelineItem(title: "Manajemen Lingkungan", isCompleted: true),
+    TimelineItem(title: "Inovasi dan Penerapan Teknologi", isCompleted: true),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -148,67 +157,26 @@ class _FarmMonitoringFarmGovScreenState
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Monitoring Peternakan',
+                      'Monitoring Kelayakan Peternakan',
                       style: TextStyle(
                           fontFamily: FontPicker.semibold,
                           color: ColorPicker.dark,
                           fontSize: 18),
                     )),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Hewan Sakit \n 10 Kambing',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Hewan Sehat \n 60 Kambing',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Jumlah Hewan \n 70 Kambing',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Persentase Hewan Sehat 86%',
-                        height: 100,
-                        bg: ColorPicker.grey,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return TimelineTile(
+                      title: items[index].title,
+                      isChecked: items[index].isCompleted,
+                      onChecked: (value) {
+                        setState(() {
+                          items[index].isCompleted = value;
+                        });
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -216,5 +184,62 @@ class _FarmMonitoringFarmGovScreenState
         ],
       ),
     ));
+  }
+}
+
+class TimelineItem {
+  String title;
+  bool isCompleted;
+
+  TimelineItem({required this.title, this.isCompleted = false});
+}
+
+class TimelineTile extends StatelessWidget {
+  final String title;
+  final bool isChecked;
+  final ValueChanged<bool>? onChecked;
+
+  const TimelineTile(
+      {super.key,
+      required this.title,
+      required this.isChecked,
+      this.onChecked});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 2,
+      shadowColor: ColorPicker.greyAccent,
+      child: ListTile(
+        trailing: Container(
+          width: 25,
+          height: 25,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isChecked ? Colors.green : Colors.orange,
+          ),
+          child: isChecked
+              ? const Icon(
+                  Icons.check,
+                  size: 16,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.close,
+                  size: 16,
+                  color: Colors.white,
+                ),
+        ),
+        title: Text(title),
+        onTap: () {
+          if (onChecked != null) {
+            onChecked!(!isChecked);
+          }
+        },
+      ),
+    );
   }
 }

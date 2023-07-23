@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gofarmin_app/models/member_model.dart';
 import 'package:gofarmin_app/models/show_member_model.dart';
+import 'package:gofarmin_app/screens/farm_gov/home/home_screen.dart';
 import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/header_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
@@ -74,5 +75,27 @@ class MemberController extends GetxController {
       AlertHelper().showAlert(error.toString());
     }
     return null;
+  }
+
+  Future<void> updateMemberById(id) async {
+    final prefs = await _prefs;
+    try {
+      var url = Uri.parse(HttpHelper().getUri('/members/$id'));
+
+      final response = await http.put(url,
+          headers: HeaderHelper().headersLogged(
+              prefs.getString('token_type'), prefs.getString('access_token')));
+
+      if (response.statusCode == 200) {
+        fetchData();
+        getById(id);
+        Get.off(const HomeFarmGovScreen());
+        Get.snackbar('Success', 'Data updated successfully');
+      }
+    } catch (error) {
+      Get.back();
+
+      AlertHelper().showAlert(error.toString());
+    }
   }
 }

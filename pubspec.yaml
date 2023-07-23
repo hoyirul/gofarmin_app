@@ -45,7 +45,6 @@ dependencies:
   file_picker: ^5.3.1
   permission_handler: any
   random_string: any
-  url_launcher: any
 
 dev_dependencies:
   flutter_test:

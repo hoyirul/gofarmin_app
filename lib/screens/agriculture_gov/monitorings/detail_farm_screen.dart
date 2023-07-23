@@ -1,10 +1,14 @@
 import 'package:gofarmin_app/controllers/agriculture_gov/member_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/monitorings/eligible_monitoring_screen.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/monitorings/stock_monitoring_screen.dart';
 import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
+import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
+import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 
 class DetailFarmAgricultureGovScreen extends StatefulWidget {
@@ -156,45 +160,84 @@ class _DetailFarmAgricultureGovScreenState
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Monitoring Stok Pakan',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
+                FutureBuilder(
+                  future: members,
+                  builder: (context, snapshot) => Row(
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(StockMonitoringAgricultureGovScreen(
+                                id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Monitoring Stok Pakan',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                      const SizedBox(
+                        width: 10,
                       ),
-                    )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Cek Kelayakan Pakan',
-                        height: 100,
-                        bg: ColorPicker.primary,
-                        textColor: ColorPicker.white,
-                      ),
-                    )),
-                  ],
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(EligibleMonitoringAgricultureGovScreen(
+                                id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Cek Kelayakan Pakan',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 Row(
-                  children: const [
-                    Expanded(
-                        child: InkWell(
-                      child: ButtonMonitoringComponent(
-                        text: 'Check Status',
-                        height: 60,
-                        bg: ColorPicker.greyLight,
-                        textColor: ColorPicker.dark,
-                      ),
-                    )),
+                  children: [
+                    FutureBuilder(
+                      future: members,
+                      builder: (context, snapshot) => Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            AlertHelper().showAlert(
+                                'Peternakan telah dicek dan peternakan ini dinyatakan layak pada 03 April 2023');
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan dalam pengecekan oleh Dinas Peternakan');
+                          }
+                        },
+                        child: ButtonMonitoringComponent(
+                          text: (snapshot.data?.memberStatus != 'worthy')
+                              ? 'Dalam pengecekan'
+                              : 'Telah dicek',
+                          height: 60,
+                          bg: (snapshot.data?.memberStatus != 'worthy')
+                              ? ColorPicker.orange
+                              : ColorPicker.greyLight,
+                          textColor: (snapshot.data?.memberStatus != 'worthy')
+                              ? ColorPicker.white
+                              : ColorPicker.dark,
+                        ),
+                      )),
+                    ),
                   ],
                 ),
               ],
