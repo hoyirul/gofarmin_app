@@ -167,7 +167,7 @@ class _HomeAgricultureGovScreenState extends State<HomeAgricultureGovScreen> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: (4 / 5),
+                              childAspectRatio: (4 / 6),
                               crossAxisSpacing: 15,
                               mainAxisSpacing: 20),
                       itemBuilder: (context, index) {
