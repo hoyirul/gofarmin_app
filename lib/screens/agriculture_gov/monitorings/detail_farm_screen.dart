@@ -1,13 +1,14 @@
 import 'package:gofarmin_app/controllers/agriculture_gov/member_controller.dart';
 import 'package:gofarmin_app/pickers/color_pickers.dart';
 import 'package:gofarmin_app/pickers/font_pickers.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/monitorings/availability_monitoring_screen.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/monitorings/eligible_monitoring_screen.dart';
+import 'package:gofarmin_app/screens/agriculture_gov/monitorings/processed_monitoring_screen.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/monitorings/stock_monitoring_screen.dart';
 import 'package:gofarmin_app/screens/components/button_monitoring_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gofarmin_app/screens/agriculture_gov/home/home_screen.dart';
-import 'package:gofarmin_app/screens/components/confirm_dialog_component.dart';
 import 'package:gofarmin_app/utils/alert_helpers.dart';
 import 'package:gofarmin_app/utils/http_helpers.dart';
 
@@ -177,6 +178,55 @@ class _DetailFarmAgricultureGovScreenState
                         },
                         child: const ButtonMonitoringComponent(
                           text: 'Monitoring Stok Pakan',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(ProcessedMonitoringAgricutureGovScreen(
+                                id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Aneka Olahan Kambing',
+                          height: 100,
+                          bg: ColorPicker.primary,
+                          textColor: ColorPicker.white,
+                        ),
+                      )),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                FutureBuilder(
+                  future: members,
+                  builder: (context, snapshot) => Row(
+                    children: [
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          if (snapshot.data?.memberStatus == 'worthy') {
+                            Get.to(AvailabilityMonitoringAgricutureGovScreen(
+                                id: widget.id));
+                          } else {
+                            AlertHelper().showAlert(
+                                'Peternakan masih dalam pengecekan!');
+                          }
+                        },
+                        child: const ButtonMonitoringComponent(
+                          text: 'Ketersediaan Kambing',
                           height: 100,
                           bg: ColorPicker.primary,
                           textColor: ColorPicker.white,
